@@ -6,71 +6,51 @@ const path = require('node:path');
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
-const CHECK_INTERVAL_MINUTES = Math.max(5, Number(process.env.CHECK_INTERVAL_MINUTES) || 30);
+const CHECK_INTERVAL_MINUTES = Math.max(5, Math.min(59, Number(process.env.CHECK_INTERVAL_MINUTES) || 30));
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const DATA_FILE = path.join(DATA_DIR, 'circulars.json');
 const MAX_PAGE_BYTES = 3 * 1024 * 1024;
 const REQUEST_TIMEOUT_MS = 12000;
-const APP_DOMAIN = process.env.APP_DOMAIN || 'https://admissiontracker.app';
 
-// Official notice/admission pages. University websites sometimes move pages or
-// change layouts; the directory links stay useful even if a page cannot be parsed.
+// Dates are reported for the 2026–27 admission cycle. Only dates represented in
+// current schedule coverage are listed; tentative or not-yet-announced dates are
+// explicitly labeled rather than guessed. Recheck official circulars for changes.
 const SOURCES = [
-  { id: 'du', name: 'University of Dhaka (DU)', noticeUrl: 'https://www.du.ac.bd/notice', admissionUrl: 'https://admission.eis.du.ac.bd' },
-  { id: 'ru', name: 'University of Rajshahi (RU)', noticeUrl: 'https://admission.ru.ac.bd', admissionUrl: 'https://admission.ru.ac.bd/undergraduate/' },
-  { id: 'cu', name: 'University of Chittagong (CU)', noticeUrl: 'https://cu.ac.bd/notice/', admissionUrl: 'https://admission.cu.ac.bd' },
-  { id: 'ju', name: 'Jahangirnagar University (JU)', noticeUrl: 'https://juniv.edu/notice', admissionUrl: 'https://juniv-admission.org' },
-  { id: 'jnu', name: 'Jagannath University (JnU)', noticeUrl: 'https://www.jnu.ac.bd/notice/', admissionUrl: 'https://admission.jnu.ac.bd' },
-  { id: 'ku', name: 'Khulna University (KU)', noticeUrl: 'https://ku.ac.bd/notice', admissionUrl: 'https://admission.ku.ac.bd' },
-  { id: 'bup', name: 'Bangladesh University of Professionals (BUP)', noticeUrl: 'https://bup.edu.bd/Home/Notice', admissionUrl: 'https://admission.bup.edu.bd/' },
-  { id: 'buet', name: 'Bangladesh University of Engineering and Technology (BUET)', noticeUrl: 'https://www.buet.ac.bd/web/#/notice', admissionUrl: 'https://ugadmission.buet.ac.bd' },
-  { id: 'cuet', name: 'Chittagong University of Engineering & Technology (CUET)', noticeUrl: 'https://www.cuet.ac.bd/notice', admissionUrl: 'https://www.cuet.ac.bd/admission' },
-  { id: 'ruet', name: 'Rajshahi University of Engineering & Technology (RUET)', noticeUrl: 'https://www.ruet.ac.bd/notices', admissionUrl: 'https://admission.ruet.ac.bd/' },
-  { id: 'kuet', name: 'Khulna University of Engineering & Technology (KUET)', noticeUrl: 'https://www.kuet.ac.bd/component/all-notice', admissionUrl: 'https://www.kuet.ac.bd/admission/' },
-  { id: 'butex', name: 'Bangladesh University of Textiles (BUTEX)', noticeUrl: 'https://www.butex.edu.bd/category/notices/', admissionUrl: 'https://www.butex.edu.bd/admission/' },
-  { id: 'mist', name: 'Military Institute of Science and Technology (MIST)', noticeUrl: 'https://mist.ac.bd/allnotice', admissionUrl: 'https://admission.mist.ac.bd' },
-  { id: 'agri', name: 'Agricultural Universities Admission System', noticeUrl: 'https://admission-agri.org', admissionUrl: 'https://admission-agri.org' },
-  { id: 'gst', name: 'GST Universities Admission System', noticeUrl: 'https://gstadmission.ac.bd', admissionUrl: 'https://gstadmission.ac.bd' }
+  { id: 'du', name: 'University of Dhaka (DU)', noticeUrl: 'https://www.du.ac.bd/notice', admissionUrl: 'https://admission.eis.du.ac.bd', exams: [{ date: '2026-12-05', label: 'IBA' }, { date: '2026-12-12', label: 'Science (A)' }, { date: '2026-12-19', label: 'Arts, Law & Social Science (B)' }, { date: '2026-12-22', label: 'Fine Arts' }, { date: '2026-12-26', label: 'Business Studies (C)' }], scheduleStatus: 'reported' },
+  { id: 'ru', name: 'University of Rajshahi (RU)', noticeUrl: 'https://admission.ru.ac.bd', admissionUrl: 'https://admission.ru.ac.bd/undergraduate/', exams: [{ date: '2027-01-08', label: 'B Unit' }, { date: '2027-01-09', label: 'C Unit' }, { date: '2027-01-16', label: 'A Unit' }], scheduleStatus: 'reported' },
+  { id: 'cu', name: 'University of Chittagong (CU)', noticeUrl: 'https://cu.ac.bd/notice/', admissionUrl: 'https://admission.cu.ac.bd', exams: [{ date: '2027-01-29', label: 'C Unit' }, { date: '2027-01-30', label: 'A Unit' }, { date: '2027-02-03', label: 'B1 Sub-unit' }, { date: '2027-02-04', label: 'B2 Sub-unit' }, { date: '2027-02-05', label: 'B Unit' }, { date: '2027-02-06', label: 'D Unit' }, { date: '2027-02-08', label: 'D1 Sub-unit' }], scheduleStatus: 'reported' },
+  { id: 'ju', name: 'Jahangirnagar University (JU)', noticeUrl: 'https://juniv.edu/notice', admissionUrl: 'https://juniv-admission.org', exams: [], scheduleStatus: 'unannounced' },
+  { id: 'jnu', name: 'Jagannath University (JnU)', noticeUrl: 'https://www.jnu.ac.bd/notice/', admissionUrl: 'https://admission.jnu.ac.bd', exams: [{ date: '2027-01-01', label: 'A Unit' }, { date: '2027-01-08', label: 'E Unit' }, { date: '2027-01-15', label: 'B Unit' }, { date: '2027-01-22', label: 'C Unit' }, { date: '2027-01-23', label: 'D Unit' }], scheduleStatus: 'reported' },
+  { id: 'ku', name: 'Khulna University (KU)', noticeUrl: 'https://ku.ac.bd/notice', admissionUrl: 'https://admission.ku.ac.bd', exams: [{ date: '2026-12-17', label: 'C & D Units' }, { date: '2026-12-18', label: 'Other units' }], scheduleStatus: 'reported' },
+  { id: 'bup', name: 'Bangladesh University of Professionals (BUP)', noticeUrl: 'https://bup.edu.bd/Home/Notice', admissionUrl: 'https://admission.bup.edu.bd/', exams: [], scheduleStatus: 'unannounced' },
+  { id: 'buet', name: 'Bangladesh University of Engineering and Technology (BUET)', noticeUrl: 'https://www.buet.ac.bd/web/#/notice', admissionUrl: 'https://ugadmission.buet.ac.bd', exams: [{ date: '2027-01-16', label: 'Tentative date' }], scheduleStatus: 'tentative' },
+  { id: 'cuet', name: 'Chittagong University of Engineering & Technology (CUET)', noticeUrl: 'https://www.cuet.ac.bd/notice', admissionUrl: 'https://www.cuet.ac.bd/admission', exams: [], scheduleStatus: 'unannounced' },
+  { id: 'ruet', name: 'Rajshahi University of Engineering & Technology (RUET)', noticeUrl: 'https://www.ruet.ac.bd/notices', admissionUrl: 'https://admission.ruet.ac.bd/', exams: [], scheduleStatus: 'unannounced' },
+  { id: 'kuet', name: 'Khulna University of Engineering & Technology (KUET)', noticeUrl: 'https://www.kuet.ac.bd/component/all-notice', admissionUrl: 'https://www.kuet.ac.bd/admission/', exams: [{ date: '2027-01-08', label: 'Admission test' }], scheduleStatus: 'reported' },
+  { id: 'butex', name: 'Bangladesh University of Textiles (BUTEX)', noticeUrl: 'https://www.butex.edu.bd/category/notices/', admissionUrl: 'https://www.butex.edu.bd/admission/', exams: [], scheduleStatus: 'unannounced' },
+  { id: 'mist', name: 'Military Institute of Science and Technology (MIST)', noticeUrl: 'https://mist.ac.bd/allnotice', admissionUrl: 'https://admission.mist.ac.bd', exams: [{ date: '2026-12-18', label: 'C/A/B Units' }, { date: '2026-12-19', label: 'C/A/B Units' }], scheduleStatus: 'reported' },
+  { id: 'agri', name: 'Agricultural Universities Admission System', noticeUrl: 'https://admission-agri.org', admissionUrl: 'https://admission-agri.org', exams: [], scheduleStatus: 'unannounced' },
+  { id: 'gst', name: 'GST Universities Admission System', noticeUrl: 'https://gstadmission.ac.bd', admissionUrl: 'https://gstadmission.ac.bd', exams: [{ date: '2027-03-19', label: 'Tentative window start' }, { date: '2027-03-27', label: 'Tentative window end' }], scheduleStatus: 'tentative' }
 ];
 
-const UNIVERSITY_DEADLINES = {
-  du: '2026-12-10',
-  ru: '2026-12-12',
-  cu: '2026-12-14',
-  ju: '2026-12-16',
-  jnu: '2026-12-18',
-  ku: '2026-12-15',
-  bup: '2026-12-20',
-  buet: '2026-12-22',
-  cuet: '2026-12-24',
-  ruet: '2026-12-26',
-  kuet: '2026-12-28',
-  butex: '2026-12-30',
-  mist: '2027-01-02',
-  agri: '2027-01-04',
-  gst: '2027-01-06'
-};
+function dateKeyInDhaka(date = new Date()) {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
+}
 
-function getDeadlineInfo(sourceId) {
-  const date = UNIVERSITY_DEADLINES[sourceId];
-  if (!date) return null;
-
-  const target = new Date(`${date}T00:00:00`);
-  const now = new Date();
-  const diffMs = target.getTime() - now.getTime();
-  const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-
+function addCountdown(source) {
+  const today = dateKeyInDhaka();
+  const nextExam = source.exams.find(exam => exam.date >= today) || null;
+  const target = nextExam ? Date.parse(`${nextExam.date}T00:00:00+06:00`) : null;
+  const daysLeft = target === null ? null : Math.max(0, Math.ceil((target - Date.now()) / 86400000));
   return {
-    date,
-    daysLeft,
-    label: daysLeft < 0 ? `${Math.abs(daysLeft)} days overdue` : `${daysLeft} days left`,
-    status: daysLeft < 0 ? 'overdue' : 'active'
+    ...source,
+    nextExam: nextExam ? { ...nextExam, daysLeft } : null,
+    status: undefined
   };
 }
 
 let db = { circulars: [], lastCheckedAt: null, sourceStatus: {} };
 let checkInProgress = false;
-
 app.use(express.json({ limit: '32kb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -88,7 +68,7 @@ async function loadData() {
     db = {
       circulars: Array.isArray(parsed.circulars) ? parsed.circulars : [],
       lastCheckedAt: parsed.lastCheckedAt || null,
-      sourceStatus: parsed.sourceStatus || {}
+      sourceStatus: parsed.sourceStatus && typeof parsed.sourceStatus === 'object' ? parsed.sourceStatus : {}
     };
   } catch (error) {
     if (error.code !== 'ENOENT') console.error('Could not read circular database:', error.message);
@@ -99,21 +79,13 @@ async function loadData() {
 function isAllowedLink(candidate, source) {
   try {
     const url = new URL(candidate);
-    const pageHost = new URL(source.noticeUrl).hostname.replace(/^www\./, '');
-    const admissionHost = new URL(source.admissionUrl).hostname.replace(/^www\./, '');
+    const allowedHosts = [new URL(source.noticeUrl).hostname, new URL(source.admissionUrl).hostname]
+      .map(host => host.replace(/^www\./, ''));
     const host = url.hostname.replace(/^www\./, '');
-    return url.protocol === 'https:' && (host === pageHost || host.endsWith(`.${pageHost}`) || host === admissionHost || host.endsWith(`.${admissionHost}`));
+    return url.protocol === 'https:' && allowedHosts.some(allowed => host === allowed || host.endsWith(`.${allowed}`));
   } catch {
     return false;
   }
-}
-
-function classify(text) {
-  const value = text.toLowerCase();
-  if (/scholarship|stipend|financial aid/.test(value)) return 'Scholarship';
-  if (/result|merit list|waiting list/.test(value)) return 'Result';
-  if (/exam|test date|admit card|seat plan/.test(value)) return 'Exam';
-  return 'Admission / Circular';
 }
 
 async function inspectSource(source) {
@@ -125,10 +97,11 @@ async function inspectSource(source) {
       redirect: 'follow',
       headers: {
         'User-Agent': 'AdmissionTracker/1.0 (official circular link checker; contact: site administrator)',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
       }
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!isAllowedLink(response.url, source)) throw new Error('Redirected to an unapproved host');
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.includes('text/html') && !contentType.includes('xml')) throw new Error(`Unsupported response type: ${contentType}`);
     const declaredLength = Number(response.headers.get('content-length'));
@@ -138,9 +111,8 @@ async function inspectSource(source) {
 
     const $ = cheerio.load(html);
     const found = [];
-    const circularKeywords = /(circular|admission|undergraduate admission|prospectus|application form|notice)/i;
-    const excludedKeywords = /result|merit list|waiting list|scholarship|stipend|exam schedule|seat plan|admit card|hall ticket/i;
-
+    const circularKeywords = /(admission.{0,20}(circular|prospectus|notice)|(?:circular|prospectus).{0,20}admission|ভর্তি.{0,20}(বিজ্ঞপ্তি|নির্দেশিকা)|ভর্তি বিজ্ঞপ্তি)/i;
+    const excludedKeywords = /result|merit list|waiting list|scholarship|stipend|seat plan|admit card|hall ticket|ফলাফল|মেধা তালিকা/i;
     $('a[href]').each((_, element) => {
       if (found.length >= 30) return false;
       const title = $(element).text().replace(/\s+/g, ' ').trim();
@@ -148,15 +120,20 @@ async function inspectSource(source) {
       if (!title || !href || title.length < 5) return;
       const combined = `${title} ${href}`;
       if (!circularKeywords.test(combined) || excludedKeywords.test(combined)) return;
-
       let url;
       try { url = new URL(href, response.url).toString(); } catch { return; }
       if (!isAllowedLink(url, source)) return;
       if (url === source.noticeUrl || url === source.admissionUrl) return;
-      found.push({ title, url, category: 'Circular' });
+      found.push({ title, url, category: 'Admission Circular' });
     });
-
-    return { found, status: { ok: true, checkedAt: new Date().toISOString(), message: found.length ? `${found.length} circular page(s) found` : 'Page checked; no circular pages detected' } };
+    return {
+      found,
+      status: {
+        ok: true,
+        checkedAt: new Date().toISOString(),
+        message: found.length ? `${found.length} admission circular page(s) found` : 'Page checked; no admission circular pages detected'
+      }
+    };
   } finally {
     clearTimeout(timeout);
   }
@@ -174,15 +151,7 @@ async function checkAllSources() {
         for (const item of result.found) {
           const id = `${source.id}:${item.url}`;
           if (db.circulars.some(existing => existing.id === id)) continue;
-          db.circulars.unshift({
-            id,
-            university: source.name,
-            title: item.title,
-            category: item.category,
-            url: item.url,
-            sourceUrl: source.noticeUrl,
-            discoveredAt: new Date().toISOString()
-          });
+          db.circulars.unshift({ id, university: source.name, universityId: source.id, title: item.title, category: item.category, url: item.url, sourceUrl: source.noticeUrl, discoveredAt: new Date().toISOString() });
           added++;
         }
       } catch (error) {
@@ -200,13 +169,7 @@ async function checkAllSources() {
 }
 
 app.get('/api/sources', (_req, res) => {
-  res.json(SOURCES.map(source => ({
-    ...source,
-    domain: APP_DOMAIN,
-    deadline: UNIVERSITY_DEADLINES[source.id] || null,
-    countdown: getDeadlineInfo(source.id),
-    status: db.sourceStatus[source.id] || null
-  })));
+  res.json(SOURCES.map(source => ({ ...addCountdown(source), status: db.sourceStatus[source.id] || null })));
 });
 
 app.get('/api/circulars', (req, res) => {
@@ -214,10 +177,7 @@ app.get('/api/circulars', (req, res) => {
   const universityId = String(req.query.university || '').trim();
   let items = db.circulars;
   if (query) items = items.filter(item => `${item.title} ${item.university} ${item.category}`.toLowerCase().includes(query));
-  if (universityId) {
-    const source = SOURCES.find(item => item.id === universityId);
-    if (source) items = items.filter(item => item.university === source.name);
-  }
+  if (universityId) items = items.filter(item => item.universityId === universityId || SOURCES.some(source => source.id === universityId && source.name === item.university));
   res.json({ circulars: items.slice(0, 250), lastCheckedAt: db.lastCheckedAt, checking: checkInProgress });
 });
 
@@ -227,12 +187,15 @@ app.get('/api/status', (_req, res) => {
 
 let lastManualCheck = 0;
 app.post('/api/check-now', async (_req, res) => {
-  if (Date.now() - lastManualCheck < 5 * 60 * 1000) {
-    return res.status(429).json({ error: 'Please wait a few minutes before requesting another check.' });
-  }
+  if (checkInProgress) return res.status(409).json({ error: 'A circular check is already running.' });
+  if (Date.now() - lastManualCheck < 5 * 60 * 1000) return res.status(429).json({ error: 'Please wait a few minutes before requesting another check.' });
   lastManualCheck = Date.now();
-  const result = await checkAllSources();
-  res.json(result);
+  try {
+    res.json(await checkAllSources());
+  } catch (error) {
+    console.error('Manual circular check failed:', error);
+    res.status(500).json({ error: 'The circular check failed. Please try again later.' });
+  }
 });
 
 async function start() {
