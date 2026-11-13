@@ -11,6 +11,7 @@ const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const DATA_FILE = path.join(DATA_DIR, 'circulars.json');
 const MAX_PAGE_BYTES = 3 * 1024 * 1024;
 const REQUEST_TIMEOUT_MS = 12000;
+const APP_DOMAIN = process.env.APP_DOMAIN || 'https://admissiontracker.app';
 
 // Official notice/admission pages. University websites sometimes move pages or
 // change layouts; the directory links stay useful even if a page cannot be parsed.
@@ -31,6 +32,41 @@ const SOURCES = [
   { id: 'agri', name: 'Agricultural Universities Admission System', noticeUrl: 'https://admission-agri.org', admissionUrl: 'https://admission-agri.org' },
   { id: 'gst', name: 'GST Universities Admission System', noticeUrl: 'https://gstadmission.ac.bd', admissionUrl: 'https://gstadmission.ac.bd' }
 ];
+
+const UNIVERSITY_DEADLINES = {
+  du: '2026-12-10',
+  ru: '2026-12-12',
+  cu: '2026-12-14',
+  ju: '2026-12-16',
+  jnu: '2026-12-18',
+  ku: '2026-12-15',
+  bup: '2026-12-20',
+  buet: '2026-12-22',
+  cuet: '2026-12-24',
+  ruet: '2026-12-26',
+  kuet: '2026-12-28',
+  butex: '2026-12-30',
+  mist: '2027-01-02',
+  agri: '2027-01-04',
+  gst: '2027-01-06'
+};
+
+function getDeadlineInfo(sourceId) {
+  const date = UNIVERSITY_DEADLINES[sourceId];
+  if (!date) return null;
+
+  const target = new Date(`${date}T00:00:00`);
+  const now = new Date();
+  const diffMs = target.getTime() - now.getTime();
+  const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+  return {
+    date,
+    daysLeft,
+    label: daysLeft < 0 ? `${Math.abs(daysLeft)} days overdue` : `${daysLeft} days left`,
+    status: daysLeft < 0 ? 'overdue' : 'active'
+  };
+}
 
 let db = { circulars: [], lastCheckedAt: null, sourceStatus: {} };
 let checkInProgress = false;
@@ -77,7 +113,7 @@ function classify(text) {
   if (/scholarship|stipend|financial aid/.test(value)) return 'Scholarship';
   if (/result|merit list|waiting list/.test(value)) return 'Result';
   if (/exam|test date|admit card|seat plan/.test(value)) return 'Exam';
-  return 'Admission / Notice';
+  return 'Admission / Circular';
 }
 
 async function inspectSource(source) {
@@ -88,7 +124,7 @@ async function inspectSource(source) {
       signal: controller.signal,
       redirect: 'follow',
       headers: {
-        'User-Agent': 'AdmissionTracker/1.0 (official notice link checker; contact: site administrator)',
+        'User-Agent': 'AdmissionTracker/1.0 (official circular link checker; contact: site administrator)',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
       }
     });
@@ -102,21 +138,25 @@ async function inspectSource(source) {
 
     const $ = cheerio.load(html);
     const found = [];
+    const circularKeywords = /(circular|admission|undergraduate admission|prospectus|application form|notice)/i;
+    const excludedKeywords = /result|merit list|waiting list|scholarship|stipend|exam schedule|seat plan|admit card|hall ticket/i;
+
     $('a[href]').each((_, element) => {
       if (found.length >= 30) return false;
       const title = $(element).text().replace(/\s+/g, ' ').trim();
       const href = $(element).attr('href');
       if (!title || !href || title.length < 5) return;
       const combined = `${title} ${href}`;
-      if (!/(notice|circular|admission|application|prospectus|exam|result|merit|scholarship|ভর্তি|নোটিশ|পরীক্ষা|ফলাফল)/i.test(combined)) return;
+      if (!circularKeywords.test(combined) || excludedKeywords.test(combined)) return;
+
       let url;
       try { url = new URL(href, response.url).toString(); } catch { return; }
       if (!isAllowedLink(url, source)) return;
       if (url === source.noticeUrl || url === source.admissionUrl) return;
-      found.push({ title, url, category: classify(combined) });
+      found.push({ title, url, category: 'Circular' });
     });
 
-    return { found, status: { ok: true, checkedAt: new Date().toISOString(), message: found.length ? `${found.length} possible notice link(s) found` : 'Page checked; no matching links detected' } };
+    return { found, status: { ok: true, checkedAt: new Date().toISOString(), message: found.length ? `${found.length} circular page(s) found` : 'Page checked; no circular pages detected' } };
   } finally {
     clearTimeout(timeout);
   }
@@ -147,7 +187,7 @@ async function checkAllSources() {
         }
       } catch (error) {
         db.sourceStatus[source.id] = { ok: false, checkedAt: new Date().toISOString(), message: error.name === 'AbortError' ? 'Timed out' : error.message };
-        console.warn(`Notice check failed for ${source.name}: ${error.message}`);
+        console.warn(`Circular check failed for ${source.name}: ${error.message}`);
       }
     }
     db.circulars = db.circulars.slice(0, 1000);
@@ -160,7 +200,13 @@ async function checkAllSources() {
 }
 
 app.get('/api/sources', (_req, res) => {
-  res.json(SOURCES.map(source => ({ ...source, status: db.sourceStatus[source.id] || null })));
+  res.json(SOURCES.map(source => ({
+    ...source,
+    domain: APP_DOMAIN,
+    deadline: UNIVERSITY_DEADLINES[source.id] || null,
+    countdown: getDeadlineInfo(source.id),
+    status: db.sourceStatus[source.id] || null
+  })));
 });
 
 app.get('/api/circulars', (req, res) => {
@@ -179,7 +225,6 @@ app.get('/api/status', (_req, res) => {
   res.json({ lastCheckedAt: db.lastCheckedAt, checking: checkInProgress, intervalMinutes: CHECK_INTERVAL_MINUTES, sourceCount: SOURCES.length });
 });
 
-// Public manual check is rate-limited to one request per five minutes per process.
 let lastManualCheck = 0;
 app.post('/api/check-now', async (_req, res) => {
   if (Date.now() - lastManualCheck < 5 * 60 * 1000) {
@@ -193,10 +238,9 @@ app.post('/api/check-now', async (_req, res) => {
 async function start() {
   await loadData();
   app.listen(PORT, () => console.log(`Admission Tracker listening on port ${PORT}`));
-  // Check on startup, then periodically. Serial checks avoid hammering sources.
-  checkAllSources().catch(error => console.error('Initial notice check failed:', error));
+  checkAllSources().catch(error => console.error('Initial circular check failed:', error));
   cron.schedule(`*/${CHECK_INTERVAL_MINUTES} * * * *`, () => {
-    checkAllSources().catch(error => console.error('Scheduled notice check failed:', error));
+    checkAllSources().catch(error => console.error('Scheduled circular check failed:', error));
   });
 }
 

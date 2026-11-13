@@ -3,72 +3,970 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#17291f">
-  <meta name="description" content="A considered study dashboard for university admission candidates.">
-  <title>The Scholar's Ledger — Admission Tracker</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Admission Tracker — university circulars, deadlines, and admission prep dashboard.">
+  <title>Admission Tracker</title>
   <style>
-    :root{--forest:#183126;--forest-2:#294536;--paper:#f4f0e6;--card:#fbf9f3;--ink:#252a22;--muted:#77776a;--gold:#a8874b;--gold-light:#d9c99e;--line:#e4dece;--soft:#eeeadf;--shadow:0 12px 35px rgba(37,42,34,.07);font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--paper);font-synthesis:none}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 10% 0%,rgba(216,201,158,.18),transparent 30%),var(--paper)}button,input,select{font:inherit}button{cursor:pointer}a{color:inherit}.masthead{background:var(--forest);color:#f7f2e7;border-bottom:3px solid var(--gold);padding:0 max(calc((100vw - 1140px)/2),24px)}.mast-inner{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:13px;font-family:'Playfair Display',Georgia,serif;font-size:23px;letter-spacing:.1px}.brand-mark{height:39px;width:39px;border:1px solid rgba(217,201,158,.75);border-radius:50%;display:grid;place-items:center;color:var(--gold-light);font-family:Georgia,serif;font-size:17px}.brand small{display:block;color:#c9c4b2;font:9px 'DM Sans',sans-serif;letter-spacing:2.1px;text-transform:uppercase;margin-top:3px}.date{font-size:12px;letter-spacing:.4px;color:#d4cfbe}.container{max-width:1140px;margin:0 auto;padding:36px 22px 60px}.eyebrow{display:flex;align-items:center;gap:10px;text-transform:uppercase;letter-spacing:2px;color:var(--gold);font-size:10px;font-weight:700}.eyebrow:before{content:'';width:28px;height:1px;background:var(--gold)}.intro{margin-bottom:26px}.intro h1{font:600 clamp(32px,5vw,47px)/1.12 'Playfair Display',Georgia,serif;letter-spacing:-.7px;color:var(--forest);margin:12px 0 9px}.intro p{font-size:14px;color:var(--muted);margin:0;max-width:600px;line-height:1.6}.dashboard{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-bottom:18px}.panel{position:relative;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:23px 24px;box-shadow:var(--shadow)}.panel:before{content:'';position:absolute;inset:5px;border:1px solid rgba(168,135,75,.14);pointer-events:none;border-radius:3px}.panel-head{position:relative;display:flex;justify-content:space-between;align-items:center;margin-bottom:23px}.panel-head h2,.notices-heading h2{font:600 19px 'Playfair Display',Georgia,serif;color:var(--forest);margin:0}.icon{width:37px;height:37px;border:1px solid var(--gold-light);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:16px}.label{position:relative;color:var(--muted);font-size:11px;letter-spacing:.3px}.timer{position:relative;font:600 clamp(39px,6.6vw,55px)/1.2 'Playfair Display',Georgia,serif;color:var(--forest);font-variant-numeric:tabular-nums;letter-spacing:1px;margin:7px 0 2px}.timer-status{position:relative;min-height:18px}.actions{position:relative;display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.btn{border-radius:3px;padding:10px 15px;font-weight:600;font-size:12px;letter-spacing:.25px;transition:background .18s ease,transform .18s ease,border-color .18s ease}.btn:hover{transform:translateY(-1px)}.btn-primary{background:var(--forest);color:#f8f3e7;border:1px solid var(--forest)}.btn-primary:hover{background:var(--forest-2)}.btn-secondary{background:transparent;color:var(--forest);border:1px solid #c9c1ad}.btn-secondary:hover{background:var(--soft)}.btn:disabled{opacity:.55;cursor:wait}.exam-row{position:relative;display:flex;align-items:center;gap:10px;margin-top:10px}.input{background:#fffdf8;border:1px solid #dcd5c4;border-radius:3px;padding:10px 11px;color:var(--ink);font-size:12px;outline:none}.input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(168,135,75,.12)}.countdown{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:17px}.unit{border:1px solid var(--line);background:#f4f0e6;text-align:center;padding:11px 5px 9px}.unit strong{font:600 25px 'Playfair Display',Georgia,serif;display:block;color:var(--forest);font-variant-numeric:tabular-nums}.unit span{color:var(--muted);font-size:9px;letter-spacing:1.4px;text-transform:uppercase}.exam-message{position:relative;margin:12px 0 0}.notice-panel{padding:24px}.notices-heading{position:relative;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.notices-heading h2{font-size:22px}.filters{display:flex;gap:8px;flex-wrap:wrap}.filters .input{min-width:215px}.toolbar{position:relative;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:13px 0 12px;border-bottom:1px solid var(--line);margin:4px 0 12px}.status{font-size:10px;color:var(--muted);letter-spacing:.15px}.toolbar-actions{display:flex;gap:7px}.list{position:relative;display:grid;gap:8px}.notice{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:14px 15px;background:#fffdf8;border:1px solid var(--line);border-left:2px solid var(--gold-light)}.notice h3{margin:0 0 5px;color:var(--forest);font:600 15px 'Playfair Display',Georgia,serif}.notice p{margin:0;color:var(--muted);font-size:11px}.notice a{color:var(--gold);font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap;letter-spacing:.2px}.notice a:hover{color:var(--forest);text-decoration:underline}.tag{display:inline-block;margin-top:7px;padding:4px 7px;background:#efebdf;color:#77633f;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px}.empty{padding:28px;text-align:center;color:var(--muted);font-size:12px;border:1px dashed #d9d1bf}.official{position:relative;border-top:1px solid var(--line);margin-top:17px;padding-top:14px}.official summary{font-family:'Playfair Display',Georgia,serif;font-size:15px;color:var(--forest);font-weight:600;cursor:pointer;list-style:none}.official summary:after{content:'＋';float:right;color:var(--gold);font:16px 'DM Sans',sans-serif}.official[open] summary:after{content:'−'}.source-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:8px;margin-top:14px}.source{border:1px solid var(--line);background:#fffdf8;padding:12px}.source strong{font:600 13px 'Playfair Display',Georgia,serif;color:var(--forest);display:block;margin-bottom:8px}.source a{font-size:10px;color:#816b40;margin-right:10px;text-decoration:none}.source a:hover{text-decoration:underline}.source small{display:block;margin-top:7px;color:var(--muted);font-size:9px;line-height:1.4}.foot{position:relative;color:var(--muted);font-size:10px;line-height:1.6;margin:14px 0 0;max-width:900px}.footer{max-width:1140px;margin:0 auto;padding:0 22px 24px;color:#918c7d;font-size:10px;display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:15px}.footer span:last-child{letter-spacing:1.3px;text-transform:uppercase}@media(max-width:720px){.masthead{padding:0 18px}.mast-inner{min-height:68px}.date{font-size:10px;text-align:right}.brand{font-size:20px}.container{padding:27px 15px 40px}.dashboard{grid-template-columns:1fr}.panel{padding:21px 19px}.notice-panel{padding:20px 16px}.filters{width:100%}.filters .input{min-width:0;flex:1}.toolbar-actions{width:100%}.toolbar-actions .btn{flex:1}.notice{align-items:flex-start}.notice a{white-space:normal;text-align:right;max-width:92px}.footer{margin:0 15px;padding-left:0;padding-right:0;flex-wrap:wrap}.countdown{gap:5px}.unit strong{font-size:22px}}
+    :root {
+      --bg-1: #0b1020;
+      --bg-2: #111827;
+      --panel: rgba(15, 23, 42, 0.68);
+      --panel-strong: rgba(15, 23, 42, 0.9);
+      --card: rgba(17, 24, 39, 0.88);
+      --ink: #edf2ff;
+      --muted: #cbd5e1;
+      --line: rgba(148, 163, 184, 0.25);
+      --teal: #2dd4bf;
+      --cyan: #67e8f9;
+      --blue: #60a5fa;
+      --purple: #a78bfa;
+      --pink: #f472b6;
+      --amber: #fbbf24;
+      --rose: #fb7185;
+      --green: #4ade80;
+      --orange: #fb923c;
+      --shadow: 0 20px 45px rgba(15, 23, 42, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(96,165,250,.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(244,114,182,.14), transparent 24%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2) 50%, #0f172a);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+    }
+
+    .masthead {
+      width: 100%;
+      padding: 22px 0 8px;
+    }
+
+    .mast-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--teal), var(--blue), var(--purple));
+      color: #03131c;
+      font-size: 1.3rem;
+      box-shadow: var(--shadow);
+    }
+
+    .brand small {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .domain-pill {
+      border: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 999px;
+      padding: 8px 14px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 22px;
+      margin-top: 20px;
+    }
+
+    .panel {
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      padding: 30px 28px;
+      background: linear-gradient(135deg, rgba(34,211,238,0.09), rgba(168,85,247,0.08));
+    }
+
+    .eyebrow {
+      display: inline-block;
+      color: var(--cyan);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: 1.07;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.7;
+      max-width: 60ch;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(120px, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .stat-box {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px 12px;
+      text-align: center;
+    }
+
+    .stat-box strong {
+      display: block;
+      font-size: 1.5rem;
+      margin-bottom: 4px;
+      background: linear-gradient(135deg, var(--teal), var(--blue), var(--purple));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .stat-box span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .hero-side {
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: linear-gradient(160deg, rgba(251,146,60,.1), rgba(244,114,182,.08), rgba(96,165,250,.09));
+    }
+
+    .quick-info {
+      display: grid;
+      gap: 12px;
+    }
+
+    .mini-info {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 14px;
+    }
+
+    .mini-info span {
+      color: var(--muted);
+      display: block;
+      font-size: 0.73rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 5px;
+    }
+
+    .mini-info strong {
+      font-size: 1.15rem;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 24px;
+    }
+
+    .panel-inner {
+      padding: 22px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      background: linear-gradient(135deg, rgba(45,212,191,.15), rgba(96,165,250,.18));
+      border: 1px solid var(--line);
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .timer {
+      font-size: clamp(2rem, 5vw, 4.2rem);
+      font-weight: 700;
+      margin: 18px 0 12px;
+      letter-spacing: 0.08em;
+      background: linear-gradient(135deg, var(--cyan), var(--teal), var(--purple));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .timer-status {
+      min-height: 26px;
+      margin-bottom: 18px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 12px;
+      padding: 0.8rem 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, opacity 0.18s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.65; cursor: not-allowed; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      color: #04151b;
+    }
+
+    .btn-secondary {
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .exam-row {
+      margin-top: 18px;
+      margin-bottom: 18px;
+    }
+
+    .input {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--ink);
+      font-size: 1rem;
+      padding: 12px 14px;
+      outline: none;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .unit {
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      text-align: center;
+      padding: 12px 10px;
+    }
+
+    .unit strong {
+      display: block;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 5px;
+      color: var(--amber);
+    }
+
+    .unit span {
+      color: var(--muted);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .exam-message {
+      min-height: 24px;
+      margin-top: 8px;
+    }
+
+    .countdown-panel {
+      margin-top: 24px;
+      padding: 22px;
+    }
+
+    .countdown-panel h2 {
+      margin: 0 0 18px;
+      font-size: 1.35rem;
+    }
+
+    .deadline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .uni-card {
+      padding: 18px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+      overflow: hidden;
+      min-height: 180px;
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .uni-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.07), transparent 60%);
+      pointer-events: none;
+    }
+
+    .uni-card:nth-child(1) { background: linear-gradient(135deg, #0ea5e9, #2563eb); }
+    .uni-card:nth-child(2) { background: linear-gradient(135deg, #8b5cf6, #ec4899); }
+    .uni-card:nth-child(3) { background: linear-gradient(135deg, #10b981, #14b8a6); }
+    .uni-card:nth-child(4) { background: linear-gradient(135deg, #f97316, #f59e0b); }
+    .uni-card:nth-child(5) { background: linear-gradient(135deg, #ef4444, #f97316); }
+    .uni-card:nth-child(6) { background: linear-gradient(135deg, #22c55e, #3b82f6); }
+    .uni-card:nth-child(7) { background: linear-gradient(135deg, #a855f7, #6366f1); }
+    .uni-card:nth-child(8) { background: linear-gradient(135deg, #f43f5e, #fb7185); }
+
+    .uni-header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .uni-header h3 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .uni-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 0 10px rgba(255,255,255,0.8);
+      display: inline-block;
+    }
+
+    .uni-date {
+      position: relative;
+      z-index: 1;
+      color: rgba(255,255,255,0.82);
+      margin: 0 0 8px;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .uni-countdown {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .uni-status {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 0.76rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .notice-panel {
+      margin-top: 24px;
+      padding: 24px 20px 16px;
+    }
+
+    .notices-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .notices-heading h2 {
+      margin: 0;
+      font-size: 1.45rem;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      width: min(100%, 440px);
+    }
+
+    .filters .input {
+      width: 100%;
+    }
+
+    select.input {
+      min-width: 180px;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+      margin-right: 8px;
+      box-shadow: 0 0 0 6px rgba(74, 222, 128, 0.14);
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .notice-item {
+      background: rgba(15, 23, 42, 0.66);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px 16px;
+    }
+
+    .notice-item a {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 700;
+      line-height: 1.5;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .notice-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(96, 165, 250, 0.12);
+      border: 1px solid rgba(96, 165, 250, 0.2);
+      color: var(--cyan);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .official {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.5);
+      padding: 0 14px;
+    }
+
+    .official summary {
+      cursor: pointer;
+      padding: 16px 4px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      padding-bottom: 16px;
+    }
+
+    .source-item {
+      background: rgba(15, 23, 42, 0.74);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: var(--muted);
+    }
+
+    .source-item strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .source-item a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    .foot {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.7;
+      margin-top: 18px;
+    }
+
+    .footer {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .dashboard { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .hero-stats { grid-template-columns: 1fr; }
+      .countdown { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .filters { width: 100%; }
+      .toolbar { flex-direction: column; }
+      .footer { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
-  <header class="masthead"><div class="mast-inner"><div class="brand"><div class="brand-mark" aria-hidden="true">S</div><div>The Scholar’s Ledger<small>Admission preparation, considered</small></div></div><div class="date" id="today"></div></div></header>
+  <header class="masthead">
+    <div class="mast-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">A</div>
+        <div>
+          Admission Tracker
+          <small>University circulars & deadlines</small>
+        </div>
+      </div>
+      <div class="domain-pill">admissiontracker.app</div>
+    </div>
+  </header>
+
   <main class="container">
-    <section class="intro"><div class="eyebrow">A quiet place to focus</div><h1>Make every hour count.</h1><p>Your study record, exam countdown, and university notices—gathered in one considered space.</p></section>
+    <section class="hero">
+      <article class="panel hero-copy">
+        <div class="eyebrow">Admission dashboard</div>
+        <h1>Track every circular with clarity and focus.</h1>
+        <p class="lead">Prepare systematically with a clean dashboard for study time, exam countdown, and university circular pages. Only official circular/admission links are surfaced here for faster tracking.</p>
+        <div class="hero-stats">
+          <div class="stat-box">
+            <strong id="totalUniversities">15</strong>
+            <span>universities</span>
+          </div>
+          <div class="stat-box">
+            <strong id="totalCirculars">0</strong>
+            <span>circulars</span>
+          </div>
+          <div class="stat-box">
+            <strong id="todayDate">—</strong>
+            <span>today</span>
+          </div>
+        </div>
+      </article>
+
+      <aside class="panel hero-side">
+        <div class="quick-info">
+          <div class="mini-info">
+            <span>Current domain</span>
+            <strong>admissiontracker.app</strong>
+          </div>
+          <div class="mini-info">
+            <span>Site status</span>
+            <strong id="siteStatus">Monitoring circulars</strong>
+          </div>
+          <div class="mini-info">
+            <span>Last check</span>
+            <strong id="lastCheck">Waiting…</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
     <section class="dashboard">
       <article class="panel">
-        <div class="panel-head"><h2>Today’s study hours</h2><div class="icon" aria-hidden="true">◷</div></div>
-        <div class="label">A little progress, faithfully recorded</div><div class="timer" id="studyTime">00:00:00</div><div class="label timer-status" id="timerStatus">Ready when you are.</div>
-        <div class="actions"><button class="btn btn-primary" id="toggleTimer">Begin a study session</button><button class="btn btn-secondary" id="resetTimer">Reset today</button></div>
+        <div class="panel-inner">
+          <div class="panel-head">
+            <h2>Today’s study hours</h2>
+            <div class="icon" aria-hidden="true">◷</div>
+          </div>
+          <div class="label">A little progress, faithfully recorded</div>
+          <div class="timer" id="studyTime">00:00:00</div>
+          <div class="label timer-status" id="timerStatus">Ready when you are.</div>
+          <div class="actions">
+            <button class="btn btn-primary" id="toggleTimer">Begin a study session</button>
+            <button class="btn btn-secondary" id="resetTimer">Reset today</button>
+          </div>
+        </div>
       </article>
+
       <article class="panel">
-        <div class="panel-head"><h2>Until examination day</h2><div class="icon" aria-hidden="true">✳</div></div>
-        <div class="label">Set a date; your countdown will be kept on this device</div>
-        <div class="exam-row"><input class="input" type="date" id="examDate" aria-label="Exam date"></div>
-        <div class="countdown"><div class="unit"><strong id="days">0</strong><span>Days</span></div><div class="unit"><strong id="hours">00</strong><span>Hours</span></div><div class="unit"><strong id="minutes">00</strong><span>Minutes</span></div><div class="unit"><strong id="seconds">00</strong><span>Seconds</span></div></div>
-        <p class="label exam-message" id="examMessage">Choose your examination date to begin.</p>
+        <div class="panel-inner">
+          <div class="panel-head">
+            <h2>Until examination day</h2>
+            <div class="icon" aria-hidden="true">✳</div>
+          </div>
+          <div class="label">Set a date; your countdown will be kept on this device</div>
+          <div class="exam-row">
+            <input class="input" type="date" id="examDate" aria-label="Exam date">
+          </div>
+          <div class="countdown">
+            <div class="unit"><strong id="days">0</strong><span>Days</span></div>
+            <div class="unit"><strong id="hours">00</strong><span>Hours</span></div>
+            <div class="unit"><strong id="minutes">00</strong><span>Minutes</span></div>
+            <div class="unit"><strong id="seconds">00</strong><span>Seconds</span></div>
+          </div>
+          <p class="label exam-message" id="examMessage">Choose your examination date to begin.</p>
+        </div>
       </article>
     </section>
+
+    <section class="panel countdown-panel">
+      <h2>University exam deadlines</h2>
+      <div class="deadline-grid" id="deadlineList"></div>
+    </section>
+
     <section class="panel notice-panel">
-      <div class="notices-heading"><h2>University circulars</h2><div class="filters"><input class="input" type="search" id="search" placeholder="Search notices or universities" aria-label="Search circulars"><select class="input" id="universityFilter" aria-label="Filter by university"><option value="">All universities</option></select></div></div>
-      <div class="toolbar"><div class="status" id="status">Connecting to notice checker…</div><div class="toolbar-actions"><button class="btn btn-secondary" id="notifyButton">Enable notifications</button><button class="btn btn-primary" id="checkButton">Check for notices</button></div></div>
-      <div class="list" id="circularList"><div class="empty">Gathering the latest notice links…</div></div>
-      <details class="official"><summary>Official university notice & admission pages</summary><div class="source-grid" id="sourceGrid"></div></details>
-      <p class="foot">New links are discovered when the server checks university pages. Some pages may block automated checks or change their layout, so notices can be missed. Always verify admission information on the official university page. Browser notifications require your permission and this website to be open.</p>
+      <div class="notices-heading">
+        <h2>University circulars</h2>
+        <div class="filters">
+          <input class="input" type="search" id="search" placeholder="Search circulars or universities" aria-label="Search circulars">
+          <select class="input" id="universityFilter" aria-label="Filter by university">
+            <option value="">All universities</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="status"><span class="status-dot"></span><span id="status">Connecting to circular checker…</span></div>
+        <div class="toolbar-actions">
+          <button class="btn btn-secondary" id="checkButton">Check now</button>
+          <button class="btn btn-secondary" id="notifyButton">Enable notifications</button>
+        </div>
+      </div>
+
+      <div class="list" id="circularList">
+        <div class="notice-item">Gathering the latest circular links…</div>
+      </div>
+
+      <details class="official">
+        <summary>Official circular & admission pages</summary>
+        <div class="source-grid" id="sourceGrid"></div>
+      </details>
+
+      <p class="foot">Only circular and admission-related links are discovered from the official university pages. For best accuracy, verify each link on the source website before submitting forms or making decisions.</p>
     </section>
   </main>
-  <footer class="footer"><span>Built for steady work and clear intentions.</span><span>The Scholar’s Ledger · Est. 2026</span></footer>
-<script>
-(() => {
-  const $ = id => document.getElementById(id);
-  const localDate = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
-  $('today').textContent = new Date().toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 
-  // Timer persists across refreshes and browser restarts on this device.
-  let study = JSON.parse(localStorage.getItem('admissionTrackerStudy') || 'null');
-  if (!study || study.date !== localDate()) study = {date:localDate(),seconds:0,running:false,startedAt:null};
-  const saveStudy = () => localStorage.setItem('admissionTrackerStudy',JSON.stringify(study));
-  function elapsedNow(){return Math.max(0,study.seconds+(study.running&&study.startedAt?Math.floor((Date.now()-study.startedAt)/1000):0));}
-  function renderTimer(){const n=elapsedNow();$('studyTime').textContent=[Math.floor(n/3600),Math.floor(n%3600/60),n%60].map(x=>String(x).padStart(2,'0')).join(':');$('toggleTimer').textContent=study.running?'Pause study session':(study.seconds?'Resume studying':'Begin a study session');$('timerStatus').textContent=study.running?'Your session is in progress. Stay with it.':(study.seconds?'Session paused. Continue when ready.':'Ready when you are.');}
-  $('toggleTimer').addEventListener('click',()=>{if(study.running){study.seconds=elapsedNow();study.running=false;study.startedAt=null;}else{study.running=true;study.startedAt=Date.now();}saveStudy();renderTimer();});
-  $('resetTimer').addEventListener('click',()=>{study={date:localDate(),seconds:0,running:false,startedAt:null};saveStudy();renderTimer();});
-  if(study.running&&!study.startedAt){study.startedAt=Date.now();saveStudy();}
+  <footer class="footer">
+    <span>Built for steady work and clear intentions.</span>
+    <span>Admission Tracker · admissiontracker.app</span>
+  </footer>
 
-  const exam=$('examDate');exam.value=localStorage.getItem('admissionTrackerExamDate')||'';
-  exam.addEventListener('change',()=>{localStorage.setItem('admissionTrackerExamDate',exam.value);renderCountdown();});
-  function renderCountdown(){if(!exam.value){$('examMessage').textContent='Choose your examination date to begin.';['days','hours','minutes','seconds'].forEach((id,i)=>$(id).textContent=i?'00':'0');return;}const target=new Date(`${exam.value}T00:00:00`),diff=target-Date.now();if(diff<=0){$('examMessage').textContent='Your examination date has arrived or passed.';['days','hours','minutes','seconds'].forEach((id,i)=>$(id).textContent=i?'00':'0');return;}let n=Math.floor(diff/1000);$('days').textContent=Math.floor(n/86400);$('hours').textContent=String(Math.floor(n%86400/3600)).padStart(2,'0');$('minutes').textContent=String(Math.floor(n%3600/60)).padStart(2,'0');$('seconds').textContent=String(n%60).padStart(2,'0');$('examMessage').textContent='One focused day at a time.';}
+  <script>
+    (() => {
+      const APP_DOMAIN = 'https://admissiontracker.app';
+      const $ = id => document.getElementById(id);
+      const localDate = () => {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      };
 
-  let sources=[];let knownIds=new Set();let firstLoad=true;
-  const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  async function loadSources(){try{const r=await fetch('/api/sources');sources=await r.json();$('universityFilter').innerHTML='<option value="">All universities</option>'+sources.map(s=>`<option value="${esc(s.id)}">${esc(s.name)}</option>`).join('');$('sourceGrid').innerHTML=sources.map(s=>`<article class="source"><strong>${esc(s.name)}</strong><a href="${esc(s.noticeUrl)}" target="_blank" rel="noopener noreferrer">Notice page ↗</a><a href="${esc(s.admissionUrl)}" target="_blank" rel="noopener noreferrer">Admission ↗</a><small>${s.status?esc(s.status.ok?s.status.message:`Check issue: ${s.status.message}`):'Waiting for first check'}</small></article>`).join('');}catch{}}
-  async function loadCirculars(){try{const params=new URLSearchParams();if($('search').value.trim())params.set('q',$('search').value.trim());if($('universityFilter').value)params.set('university',$('universityFilter').value);const r=await fetch(`/api/circulars?${params}`);if(!r.ok)throw Error('Could not load circulars');const data=await r.json();const items=data.circulars||[];if(firstLoad){knownIds=new Set(items.map(x=>x.id));firstLoad=false;}else if('Notification'in window&&Notification.permission==='granted'){for(const item of items){if(!knownIds.has(item.id))new Notification('New university circular',{body:`${item.university}: ${item.title}`});}}items.forEach(x=>knownIds.add(x.id));$('circularList').innerHTML=items.length?items.map(item=>`<article class="notice"><div><h3>${esc(item.title)}</h3><p>${esc(item.university)} · ${new Date(item.discoveredAt).toLocaleString()}</p><span class="tag">${esc(item.category)}</span></div><a href="${esc(item.url)}" target="_blank" rel="noopener noreferrer">Read official notice ↗</a></article>`).join(''):'<div class="empty">No circular links discovered yet. Open an official notice page below while the checker scans.</div>';const checked=data.lastCheckedAt?new Date(data.lastCheckedAt).toLocaleString():'Not checked yet';$('status').textContent=`Automatic checks every 30 minutes · Last checked: ${checked}`;}catch{$('status').textContent='The notice service is unavailable. Start the server with npm start.';$('circularList').innerHTML='<div class="empty">Could not connect to the circular checker.</div>';}}
-  $('search').addEventListener('input',loadCirculars);$('universityFilter').addEventListener('change',loadCirculars);
-  $('checkButton').addEventListener('click',async()=>{const btn=$('checkButton');btn.disabled=true;btn.textContent='Checking…';try{const r=await fetch('/api/check-now',{method:'POST'});const d=await r.json();if(!r.ok)throw Error(d.error||'Check failed');await loadSources();await loadCirculars();}catch(e){$('status').textContent=e.message;}finally{btn.disabled=false;btn.textContent='Check for notices';}});
-  $('notifyButton').addEventListener('click',async()=>{if(!('Notification'in window)){alert('Browser notifications are not supported here.');return;}const permission=await Notification.requestPermission();$('notifyButton').textContent=permission==='granted'?'Notifications enabled':'Enable notifications';});
-  loadSources();loadCirculars();renderTimer();renderCountdown();setInterval(()=>{renderTimer();renderCountdown();},1000);setInterval(()=>{loadSources();loadCirculars();},60000);setInterval(saveStudy,10000);
-})();
-</script>
+      $('todayDate').textContent = new Date().toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+
+      let study = JSON.parse(localStorage.getItem('admissionTrackerStudy') || 'null');
+      if (!study || study.date !== localDate()) study = { date: localDate(), seconds: 0, running: false, startedAt: null };
+      const saveStudy = () => localStorage.setItem('admissionTrackerStudy', JSON.stringify(study));
+
+      function elapsedNow() {
+        return Math.max(0, study.seconds + (study.running && study.startedAt ? Math.floor((Date.now() - study.startedAt) / 1000) : 0));
+      }
+
+      function renderTimer() {
+        const n = elapsedNow();
+        $('studyTime').textContent = [Math.floor(n / 3600), Math.floor((n % 3600) / 60), n % 60].map(x => String(x).padStart(2, '0')).join(':');
+        $('toggleTimer').textContent = study.running ? 'Pause session' : 'Begin a study session';
+        $('timerStatus').textContent = study.running ? 'Session in progress' : 'Ready when you are.';
+      }
+
+      $('toggleTimer').addEventListener('click', () => {
+        if (study.running) {
+          study.seconds = elapsedNow();
+          study.running = false;
+          study.startedAt = null;
+        } else {
+          study.running = true;
+          study.startedAt = Date.now();
+        }
+        saveStudy();
+        renderTimer();
+      });
+
+      $('resetTimer').addEventListener('click', () => {
+        study = { date: localDate(), seconds: 0, running: false, startedAt: null };
+        saveStudy();
+        renderTimer();
+      });
+
+      if (study.running && !study.startedAt) {
+        study.startedAt = Date.now();
+        saveStudy();
+      }
+
+      const exam = $('examDate');
+      exam.value = localStorage.getItem('admissionTrackerExamDate') || '';
+      exam.addEventListener('change', () => {
+        localStorage.setItem('admissionTrackerExamDate', exam.value);
+        renderCountdown();
+      });
+
+      function renderCountdown() {
+        if (!exam.value) {
+          $('examMessage').textContent = 'Choose your examination date to begin.';
+          ['days', 'hours', 'minutes', 'seconds'].forEach(id => $(id).textContent = id === 'days' ? '0' : '00');
+          return;
+        }
+
+        const target = new Date(`${exam.value}T00:00:00`);
+        const now = new Date();
+        const diff = Math.max(0, target.getTime() - now.getTime());
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        $('days').textContent = String(days);
+        $('hours').textContent = String(hours).padStart(2, '0');
+        $('minutes').textContent = String(minutes).padStart(2, '0');
+        $('seconds').textContent = String(seconds).padStart(2, '0');
+        $('examMessage').textContent = `Examination day is ${new Date(exam.value).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}.`;
+      }
+
+      const esc = s => String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+      let sources = [];
+      function renderUniversityDeadlines() {
+        const container = $('deadlineList');
+        if (!container || !sources.length) return;
+
+        container.innerHTML = sources.map(source => {
+          const countdown = source.countdown || { date: null, daysLeft: null, label: 'No deadline set', status: 'inactive' };
+          const days = countdown.daysLeft == null ? '—' : Math.abs(countdown.daysLeft);
+          const label = countdown.daysLeft == null ? 'No deadline' : (countdown.daysLeft < 0 ? 'Overdue' : 'Remaining');
+          return `
+            <article class="uni-card">
+              <div class="uni-header">
+                <h3>${esc(source.name)}</h3>
+                <span class="uni-dot" aria-hidden="true"></span>
+              </div>
+              <p class="uni-date">${countdown.date ? new Date(`${countdown.date}T00:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Deadline not set'}</p>
+              <div class="uni-countdown">${days}</div>
+              <div class="uni-status">${label}</div>
+            </article>
+          `;
+        }).join('');
+      }
+
+      async function loadSources() {
+        try {
+          const response = await fetch('/api/sources');
+          sources = await response.json();
+          $('totalUniversities').textContent = String(sources.length);
+          $('universityFilter').innerHTML = '<option value="">All universities</option>' + sources.map(source => `<option value="${source.id}">${esc(source.name)}</option>`).join('');
+          renderUniversityDeadlines();
+          renderSourceGrid();
+        } catch (error) {
+          $('status').textContent = 'Could not load university data';
+        }
+      }
+
+      function renderSourceGrid() {
+        const grid = $('sourceGrid');
+        if (!grid) return;
+        grid.innerHTML = sources.map(source => `
+          <div class="source-item">
+            <strong>${esc(source.name)}</strong>
+            <div>${source.countdown ? `Deadline: ${source.countdown.label}` : 'Deadline: not set'}</div>
+            <div><a href="${source.noticeUrl}" target="_blank" rel="noopener noreferrer">Open notice page</a></div>
+          </div>
+        `).join('');
+      }
+
+      async function loadCirculars() {
+        try {
+          const params = new URLSearchParams();
+          if ($('search').value.trim()) params.set('q', $('search').value.trim());
+          if ($('universityFilter').value) params.set('university', $('universityFilter').value);
+          const url = `/api/circulars${params.toString() ? `?${params.toString()}` : ''}`;
+          const response = await fetch(url);
+          const data = await response.json();
+          $('totalCirculars').textContent = String(data.circulars.length);
+          $('status').textContent = data.checking ? 'Updating circular pages…' : 'Circular tracker active';
+          $('siteStatus').textContent = data.checking ? 'Updating' : 'Monitoring circulars';
+          $('lastCheck').textContent = data.lastCheckedAt ? new Date(data.lastCheckedAt).toLocaleString() : 'Not checked yet';
+
+          const list = $('circularList');
+          if (!data.circulars.length) {
+            list.innerHTML = '<div class="notice-item"><strong>No circulars found.</strong><div class="notice-meta"><span>Try a different filter or refresh the data.</span></div></div>';
+            return;
+          }
+
+          list.innerHTML = data.circulars.map(item => `
+            <div class="notice-item">
+              <a href="${item.url}" target="_blank" rel="noopener noreferrer">${esc(item.title)}</a>
+              <div class="notice-meta">
+                <span>${esc(item.university)}</span>
+                <span class="pill">${esc(item.category || 'Circular')}</span>
+              </div>
+            </div>
+          `).join('');
+        } catch (error) {
+          $('status').textContent = 'Could not refresh circulars';
+          console.error(error);
+        }
+      }
+
+      $('search').addEventListener('input', loadCirculars);
+      $('universityFilter').addEventListener('change', loadCirculars);
+
+      $('checkButton').addEventListener('click', async () => {
+        const btn = $('checkButton');
+        btn.disabled = true;
+        btn.textContent = 'Checking…';
+        try {
+          const response = await fetch('/api/check-now', { method: 'POST' });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || 'Unable to check circulars');
+          $('status').textContent = data.added ? `Added ${data.added} circular(s)` : 'No new circulars found';
+          await loadCirculars();
+        } catch (error) {
+          $('status').textContent = error.message || 'Check failed';
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Check now';
+        }
+      });
+
+      $('notifyButton').addEventListener('click', async () => {
+        if (!('Notification' in window)) {
+          alert('Browser notifications are not supported here.');
+          return;
+        }
+
+        const permission = await Notification.requestPermission();
+        $('notifyButton').textContent = permission === 'granted' ? 'Notifications enabled' : 'Notifications blocked';
+      });
+
+      loadSources();
+      loadCirculars();
+      renderTimer();
+      renderCountdown();
+      setInterval(() => { renderTimer(); renderCountdown(); }, 1000);
+      setInterval(() => {
+        loadSources();
+        loadCirculars();
+      }, 60000);
+      setInterval(saveStudy, 5000);
+    })();
+  </script>
 </body>
 </html>
