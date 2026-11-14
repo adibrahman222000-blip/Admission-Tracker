@@ -1,30 +1,15 @@
 # Admission Tracker
 
-A focused index of official university undergraduate admission circulars for Bangladesh, for the 2026–27 session.
+A minimal tracker for official university undergraduate admission notices in Bangladesh.
 
-## Run locally
+- The feed detects circulars for the 2026–27 session from configured official university pages.
+- Public/private and session filters apply to the notices and official-page fallback list. Currently, only 2026–27 is scanned; “All available sessions” means all circulars currently stored.
+- Each configured source checks both its official notice and admission page. If a page is blocked or fails, the other is still checked and direct official links are displayed as fallback.
+- UGC directory links help locate Bangladesh institutions not yet configured for automated monitoring; this project does not claim to monitor every institution yet.
+- A translucent glass quote panel rotates its motivational quote every 45 seconds. Animations honor reduced-motion preferences.
 
-Requires Node.js 20 or newer.
+The automated checker is best-effort: university websites may block requests or change layouts. Verify dates and notices on the official university site. Circular history is stored at `data/circulars.json`; set `DATA_DIR` to persistent storage if it must survive service restarts.
 
-```bash
-npm install
-npm start
-```
+## Run and deploy
 
-Open <http://localhost:3000>.
-
-## Features
-
-- Scans configured official university notice pages for undergraduate 2026–27 admission circulars.
-- Excludes results, scholarships, and unrelated notices.
-- Shows official university notice/admission links when a matching circular is not detected.
-- Links to UGC university directories for other Bangladeshi institutions.
-- Rotates an encouragement quote every 45 seconds; includes lightweight animations and respects reduced-motion accessibility preferences.
-- The checker runs on startup and every 30 minutes. Use `CHECK_INTERVAL_MINUTES` to choose an interval from 5 to 59 minutes.
-- Circular history is stored under `data/circulars.json`; set `DATA_DIR` to persistent storage if history must survive service restarts.
-
-Automated detection is heuristic. University sites may block automated requests, change page layouts, or omit session details from links. A missing result is not proof that no circular has been published. Verify notices on the official university website. The configured list does not yet include every institution in the UGC directory.
-
-## Deploy on Render
-
-Use `npm install` as the build command and `npm start` as the start command. Render can redeploy this branch from GitHub. On a free service the filesystem is ephemeral, so cached circular history may be lost after a restart; the official university links remain available.
+Run locally with Node.js 20+: `npm install` then `npm start`. On Render, use `npm install` as the build command and `npm start` as the start command. Free service filesystems are ephemeral, so cached circular history may be lost after a restart; the official links remain accessible.
