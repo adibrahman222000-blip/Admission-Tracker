@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090810"><meta name="description" content="A focused, standalone page for one Admission Tracker dashboard section."><title>Dashboard Section · Admission Tracker</title><link rel="icon" type="image/svg+xml" href="logo.svg">
+<style>
+:root{color-scheme:dark;--bg:#090810;--ink:#f4f2ff;--muted:#a19db4;--line:#ffffff1a;--cyan:#37f5ed}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 12% 0,#a879ff20,transparent 35%),var(--bg);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}.top{height:64px;width:min(1180px,calc(100% - 28px));margin:auto;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:750;text-decoration:none}.brand img{width:32px;height:32px}.back{color:var(--cyan);font-size:.77rem;text-decoration:none}.frame-wrap{width:min(1180px,calc(100% - 28px));min-height:calc(100vh - 86px);margin:0 auto 22px;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:#14121f;box-shadow:0 20px 60px #0006}.frame{display:block;width:100%;height:calc(100vh - 90px);min-height:650px;border:0;background:#090810}.fallback{display:none;margin:30px;padding:20px;border:1px solid var(--line);border-radius:12px;color:var(--muted)}.fallback a{color:var(--cyan)}@media(max-width:600px){.frame{height:calc(100vh - 80px);min-height:570px}.frame-wrap{width:100%;border-radius:0;margin:0;border-left:0;border-right:0}.top{height:58px}}
+</style>
+</head>
+<body>
+<header class="top"><a class="brand" href="home.html"><img src="logo.svg" alt=""><span>Admission Tracker</span></a><a class="back" href="home.html">← Home</a></header>
+<main class="frame-wrap"><iframe class="frame" id="sectionFrame" title="Dashboard section" loading="eager"></iframe><div class="fallback" id="fallback">This section could not be opened. <a href="index.html">Open the full dashboard</a>.</div></main>
+<script>
+(()=>{
+  const sections={
+    universities:{title:'University countdowns',anchor:'universities'},
+    notices:{title:'Admission notices',anchor:'notices'},
+    study:{title:'Study tools',anchor:'focus'},
+    flashcards:{title:'Quick revision flashcards',anchor:'flashcards'},
+    directories:{title:'University directories',anchor:'directories'},
+    motivation:{title:'Daily encouragement',anchor:'motivation'}
+  };
+  const page=sections[new URLSearchParams(location.search).get('view')];
+  const frame=document.getElementById('sectionFrame');
+  if(!page){document.getElementById('fallback').style.display='block';frame.hidden=true;return;}
+  document.title=`${page.title} · Admission Tracker`;
+  frame.title=page.title;
+  frame.src=`index.html#${page.anchor}`;
+  frame.addEventListener('load',()=>{
+    try{
+      const doc=frame.contentDocument;
+      if(!doc||!doc.querySelector('main'))throw new Error('Dashboard content unavailable');
+      const target=doc.getElementById(page.anchor);
+      if(!target)throw new Error('Section unavailable');
+      doc.querySelectorAll('body > header, body > footer, .ambient').forEach(el=>el.style.display='none');
+      const main=doc.querySelector('main');
+      [...main.children].forEach(el=>{el.style.display=el===target?'':'none';});
+      main.style.width='min(1080px, calc(100% - 30px))';
+      main.style.margin='0 auto';
+      main.style.padding='18px 0 30px';
+      target.style.display='block';
+      target.style.marginTop='0';
+      target.scrollIntoView({block:'start'});
+    }catch{
+      frame.hidden=true;
+      document.getElementById('fallback').style.display='block';
+    }
+  });
+})();
+</script>
+</body>
+</html>
