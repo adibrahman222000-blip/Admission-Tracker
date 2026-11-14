@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090810"><meta name="description" content="A focused, standalone page for one Admission Tracker dashboard section."><title>Dashboard Section · Admission Tracker</title><link rel="icon" type="image/svg+xml" href="logo.svg">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090810"><meta name="description" content="A focused, standalone Admission Tracker dashboard section."><title>Dashboard Section · Admission Tracker</title><link rel="icon" type="image/svg+xml" href="logo.svg">
 <style>
-:root{color-scheme:dark;--bg:#090810;--ink:#f4f2ff;--muted:#a19db4;--line:#ffffff1a;--cyan:#37f5ed}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 12% 0,#a879ff20,transparent 35%),var(--bg);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}.top{height:64px;width:min(1180px,calc(100% - 28px));margin:auto;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:750;text-decoration:none}.brand img{width:32px;height:32px}.back{color:var(--cyan);font-size:.77rem;text-decoration:none}.frame-wrap{width:min(1180px,calc(100% - 28px));min-height:calc(100vh - 86px);margin:0 auto 22px;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:#14121f;box-shadow:0 20px 60px #0006}.frame{display:block;width:100%;height:calc(100vh - 90px);min-height:650px;border:0;background:#090810}.fallback{display:none;margin:30px;padding:20px;border:1px solid var(--line);border-radius:12px;color:var(--muted)}.fallback a{color:var(--cyan)}@media(max-width:600px){.frame{height:calc(100vh - 80px);min-height:570px}.frame-wrap{width:100%;border-radius:0;margin:0;border-left:0;border-right:0}.top{height:58px}}
+:root{color-scheme:dark;--bg:#090810;--ink:#f4f2ff;--muted:#a19db4;--line:#ffffff1a;--cyan:#37f5ed}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 12% 0,#a879ff20,transparent 35%),var(--bg);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}.top{height:64px;width:min(1080px,calc(100% - 28px));margin:auto;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:750;text-decoration:none}.brand img{width:32px;height:32px}.back{color:var(--cyan);font-size:.77rem;text-decoration:none}.frame-wrap{width:min(1080px,calc(100% - 28px));min-height:220px;margin:0 auto 24px;padding:12px;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,#14121fe8,#171328dd);box-shadow:0 20px 60px #0006}.frame{display:block;width:100%;height:220px;border:0;border-radius:10px;background:transparent;overflow:hidden}.fallback{display:none;margin:12px;padding:20px;border:1px solid var(--line);border-radius:12px;color:var(--muted)}.fallback a{color:var(--cyan)}@media(max-width:600px){.top{height:58px}.frame-wrap{width:100%;margin:0;padding:8px;border-radius:0;border-left:0;border-right:0}}
 </style>
 </head>
 <body>
@@ -15,36 +15,62 @@
     universities:{title:'University countdowns',anchor:'universities'},
     notices:{title:'Admission notices',anchor:'notices'},
     study:{title:'Study tools',anchor:'focus'},
-    flashcards:{title:'Quick revision flashcards',anchor:'flashcards'},
     directories:{title:'University directories',anchor:'directories'},
     motivation:{title:'Daily encouragement',anchor:'motivation'}
   };
   const page=sections[new URLSearchParams(location.search).get('view')];
   const frame=document.getElementById('sectionFrame');
-  if(!page){document.getElementById('fallback').style.display='block';frame.hidden=true;return;}
+  const fallback=document.getElementById('fallback');
+  if(!page){frame.hidden=true;fallback.style.display='block';return;}
   document.title=`${page.title} · Admission Tracker`;
   frame.title=page.title;
-  frame.src=`index.html#${page.anchor}`;
+  let ready=false;
+  const resizeFrame=()=>{
+    if(!ready)return;
+    try{
+      const doc=frame.contentDocument;
+      const main=doc.querySelector('main');
+      const section=doc.getElementById(page.anchor);
+      if(!main||!section)throw new Error('Requested dashboard section is missing');
+      const height=Math.max(280,Math.ceil(section.getBoundingClientRect().height+50));
+      frame.style.height=`${height}px`;
+    }catch{
+      frame.hidden=true;
+      fallback.style.display='block';
+    }
+  };
   frame.addEventListener('load',()=>{
     try{
       const doc=frame.contentDocument;
-      if(!doc||!doc.querySelector('main'))throw new Error('Dashboard content unavailable');
-      const target=doc.getElementById(page.anchor);
-      if(!target)throw new Error('Section unavailable');
-      doc.querySelectorAll('body > header, body > footer, .ambient').forEach(el=>el.style.display='none');
+      if(!doc)throw new Error('Dashboard could not be loaded');
       const main=doc.querySelector('main');
-      [...main.children].forEach(el=>{el.style.display=el===target?'':'none';});
-      main.style.width='min(1080px, calc(100% - 30px))';
+      const section=doc.getElementById(page.anchor);
+      if(!main||!section)throw new Error('Requested dashboard section is missing');
+      doc.querySelectorAll('body > header, body > footer, .ambient').forEach(el=>{el.hidden=true;});
+      [...main.children].forEach(el=>{if(el!==section){el.hidden=true;el.setAttribute('aria-hidden','true');}});
+      main.style.width='min(1080px, calc(100% - 24px))';
+      main.style.maxWidth='1080px';
+      main.style.minHeight='0';
       main.style.margin='0 auto';
-      main.style.padding='18px 0 30px';
-      target.style.display='block';
-      target.style.marginTop='0';
-      target.scrollIntoView({block:'start'});
+      main.style.padding='8px 0 20px';
+      section.hidden=false;
+      section.removeAttribute('aria-hidden');
+      section.style.display='block';
+      section.style.marginTop='0';
+      section.style.width='100%';
+      doc.body.style.minHeight='0';
+      doc.body.style.overflowX='hidden';
+      doc.documentElement.style.scrollBehavior='auto';
+      ready=true;
+      requestAnimationFrame(resizeFrame);
+      if('ResizeObserver'in window){new ResizeObserver(resizeFrame).observe(section);}
+      window.addEventListener('resize',resizeFrame,{passive:true});
     }catch{
       frame.hidden=true;
-      document.getElementById('fallback').style.display='block';
+      fallback.style.display='block';
     }
   });
+  frame.src=`index.html#${encodeURIComponent(page.anchor)}`;
 })();
 </script>
 </body>
