@@ -7,6 +7,22 @@ const helmet = require('helmet');
 const { rateLimit } = require('express-rate-limit');
 
 const app = express();
+const express = require('express');
+const path = require('node:path');
+
+const app = express();
+
+app.get('/', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'home.html'));
+});
+
+app.get('/home.html', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'home.html'));
+});
+
+app.use(express.static(path.join(__dirname, 'public'), {
+  index: 'home.html'
+}));
 const PORT = Number(process.env.PORT) || 3000;
 const CHECK_INTERVAL_MINUTES = Math.max(5, Math.min(59, Number(process.env.CHECK_INTERVAL_MINUTES) || 30));
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
