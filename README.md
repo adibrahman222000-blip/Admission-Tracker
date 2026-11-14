@@ -1,6 +1,6 @@
 # Admission Tracker
 
-A focused tracker for official **2026–27 undergraduate admission circulars** in Bangladesh.
+A focused index of official university undergraduate admission circulars for Bangladesh, for the 2026–27 session.
 
 ## Run locally
 
@@ -13,20 +13,18 @@ npm start
 
 Open <http://localhost:3000>.
 
-## What the tracker does
+## Features
 
-- Scans configured official university and admission-cluster pages.
-- Lists a link only when nearby page text identifies the 2026–27 session, undergraduate admission, and circular/admission context.
-- Filters results, scholarship announcements, and unrelated notices.
-- Displays each configured university's official notice/admission links when no matching circular is detected, even if other universities have results.
-- Links to the UGC Bangladesh public university and university directories for finding recognized institutions not yet configured in the tracker.
-- Checks on startup and every 30 minutes. `CHECK_INTERVAL_MINUTES` accepts values from 5 to 59.
-- Stores circular history in `data/circulars.json`; set `DATA_DIR` to persistent storage when deploying.
+- Scans configured official university notice pages for undergraduate 2026–27 admission circulars.
+- Excludes results, scholarships, and unrelated notices.
+- Shows official university notice/admission links when a matching circular is not detected.
+- Links to UGC university directories for other Bangladeshi institutions.
+- Rotates an encouragement quote every 45 seconds; includes lightweight animations and respects reduced-motion accessibility preferences.
+- The checker runs on startup and every 30 minutes. Use `CHECK_INTERVAL_MINUTES` to choose an interval from 5 to 59 minutes.
+- Circular history is stored under `data/circulars.json`; set `DATA_DIR` to persistent storage if history must survive service restarts.
 
-## Coverage and verification
+Automated detection is heuristic. University sites may block automated requests, change page layouts, or omit session details from links. A missing result is not proof that no circular has been published. Verify notices on the official university website. The configured list does not yet include every institution in the UGC directory.
 
-The current automatic scanner covers the configured universities and admission clusters in `server.js`; it does **not yet automatically scan every university in the UGC directories**. The official UGC directory links are provided for broader coverage. Automated detection may miss an announcement when a university blocks the checker, changes its page layout, or does not mention the session/undergraduate status near the link. Verify notices on the official source page.
+## Deploy on Render
 
-## Render
-
-Use `npm install` as the build command and `npm start` as the start command. Attach a persistent disk and set `DATA_DIR` to the disk's mount path to retain discovered circulars across restarts.
+Use `npm install` as the build command and `npm start` as the start command. Render can redeploy this branch from GitHub. On a free service the filesystem is ephemeral, so cached circular history may be lost after a restart; the official university links remain available.
