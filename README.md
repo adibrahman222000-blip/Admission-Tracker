@@ -1,6 +1,6 @@
 # Admission Tracker
 
-A university admission dashboard with official circular links, exam schedule countdowns, study timer, and individual student profiles.
+A focused index of official university undergraduate admission circulars for the 2026–27 session.
 
 ## Run locally
 
@@ -8,24 +8,22 @@ Requires Node.js 20 or newer.
 
 ```bash
 npm install
-SESSION_SECRET="a-long-random-secret-at-least-32-characters" npm start
-```
-
-Open <http://localhost:3000>. Visit <http://localhost:3000/profile> to create an account or sign in. Each student's profile settings are stored in the local SQLite database under `data/` and are only accessible after signing in.
-
-On Windows PowerShell, set the secret first:
-
-```powershell
-$env:SESSION_SECRET = "a-long-random-secret-at-least-32-characters"
 npm start
 ```
 
-## Production security setup
+Open <http://localhost:3000>.
 
-- Set `NODE_ENV=production` and a unique `SESSION_SECRET` of 32+ random characters in your host's secret/environment settings. HTTPS must be enabled in production because session cookies use the `Secure` flag.
-- Provide persistent storage for `DATA_DIR`; it holds `users.sqlite` and `sessions.sqlite` (accounts, password hashes, sessions) and `circulars.json`.
-- Never commit `.env`, databases, or secrets. Use a unique password; passwords are stored as bcrypt hashes.
-- Registration and sign-in are rate-limited. Profile fields require a signed-in session. Session cookies are HttpOnly and SameSite=Lax; mutation requests require same-origin checks.
-- Back up `DATA_DIR` securely. Do not store sensitive identity or financial data in student profiles.
+## What the tracker includes
 
-Profile fields include display name, email, target university, personal exam date, and daily study goal. Public circular and university schedule APIs remain available without login.
+- Links detected from configured official university notice/admission pages.
+- A result is shown only when its link context includes the 2026–27 session, undergraduate admission language, and circular/admission terms.
+- Results, scholarships, and unrelated notices are excluded.
+- If no matching circular is found, the dashboard displays direct official notice and admission-page links for the selected university (or all universities).
+- The checker runs on startup and every 30 minutes. Use `CHECK_INTERVAL_MINUTES` to set an interval from 5 to 59 minutes.
+- Circular history is stored under `data/circulars.json`; set `DATA_DIR` to a persistent storage path when deploying.
+
+Automated detection is heuristic: university pages may block the crawler, change layouts, or omit session details from link text. A missing result is not proof that no circular exists. Verify dates and notices on the official university page.
+
+## Deploy on Render
+
+Use `npm install` as the build command and `npm start` as the start command. Attach persistent storage and set `DATA_DIR` to its mount path if you need circular history to survive restarts.
