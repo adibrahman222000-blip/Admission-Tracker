@@ -28,7 +28,7 @@ const SOURCES = [
   { id: 'buet', name: 'Bangladesh University of Engineering and Technology (BUET)', type: 'public', noticeUrl: 'https://www.buet.ac.bd/web/#/notice', admissionUrl: 'https://ugadmission.buet.ac.bd' },
   { id: 'cuet', name: 'Chittagong University of Engineering & Technology (CUET)', type: 'public', noticeUrl: 'https://www.cuet.ac.bd/notice', admissionUrl: 'https://www.cuet.ac.bd/admission' },
   { id: 'ruet', name: 'Rajshahi University of Engineering & Technology (RUET)', type: 'public', noticeUrl: 'https://www.ruet.ac.bd/notices', admissionUrl: 'https://admission.ruet.ac.bd/' },
-  { id: 'kuet', name: 'Khulna University of Engineering & Technology (KUET)', type: 'public', noticeUrl: 'https://www.kuet.ac.bd/component/all-notice', admissionUrl: 'https://www.kuet.ac.bd/admission/' },
+  { id: 'kuet', name: 'Khulna University of Engineering & Technology (KUET)', type: 'public', noticeUrl: 'https://www.kuet.ac.bd/component/all-notice', admissionUrl: 'https://www.kuet.ac.bd/admission' },
   { id: 'butex', name: 'Bangladesh University of Textiles (BUTEX)', type: 'public', noticeUrl: 'https://www.butex.edu.bd/category/notices/', admissionUrl: 'https://www.butex.edu.bd/admission/' },
   { id: 'mist', name: 'Military Institute of Science and Technology (MIST)', type: 'public', noticeUrl: 'https://mist.ac.bd/allnotice', admissionUrl: 'https://admission.mist.ac.bd' },
   { id: 'agri', name: 'Agricultural Universities Admission System', type: 'public', noticeUrl: 'https://admission-agri.org', admissionUrl: 'https://admission-agri.org' },
@@ -41,7 +41,7 @@ const UGC_DIRECTORIES = [
 const sessionPattern = /(?:2026\s*[-–/\u2010\u2011]\s*(?:2027|27)|২০২৬\s*[-–/\u2010\u2011]\s*(?:২০২৭|২৭))/i;
 const admissionPattern = /admission|circular|prospectus|application|ভর্তি|বিজ্ঞপ্তি|নির্দেশিকা/i;
 const undergraduatePattern = /undergraduate|undergrad|honou?rs?|bachelor|first\s*year|1st\s*year|স্নাতক|সম্মান|অনার্স/i;
-const excludedPattern = /result|merit\s*list|waiting\s*list|scholarship|stipend|seat\s*plan|admit\s*card|hall\s*ticket|job|tender|ফলাফল|মেধা\s*তালিকা|বৃত্তি/i;
+const excludedPattern = /result|merit\s*list|waiting\s*list|scholarship|stipend|seat\s*plan|admit\s*card|hall\s*ticket|job|tender|ফলাফল|মেধা\s*তালিকা|বৃত্তি|ভর্তির\s*ফলাফল/i;
 
 let db = { circulars: [], lastCheckedAt: null, sourceStatus: {} };
 let checkInProgress = false;
@@ -50,7 +50,10 @@ app.disable('x-powered-by');
 if (process.env.NODE_ENV === 'production') app.set('trust proxy', 1);
 app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 app.use(express.json({ limit: '8kb', strict: true }));
-app.use(express.static(path.join(__dirname, 'public'), { dotfiles: 'ignore', index: 'index.html', maxAge: process.env.NODE_ENV === 'production' ? '1h' : 0 }));
+app.use(express.static(path.join(__dirname, 'public'), { dotfiles: 'ignore', index: 'home.html', maxAge: process.env.NODE_ENV === 'production' ? '1h' : 0 }));
+app.get('/', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'home.html')));
+app.get('/home', (_req, res) => res.redirect('/home.html'));
+app.get('/home.html', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'home.html')));
 
 const manualCheckLimiter = rateLimit({ windowMs: 5 * 60 * 1000, limit: 1, standardHeaders: true, legacyHeaders: false, message: { error: 'Please wait a few minutes before requesting another check.' } });
 function requireSameOrigin(req, res, next) {
@@ -90,7 +93,7 @@ async function readLimitedBody(response) {
 async function inspectPage(source, pageUrl) {
   const controller = new AbortController(); const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
-    const response = await fetch(pageUrl, { signal: controller.signal, redirect: 'follow', headers: { 'User-Agent': 'AdmissionTracker/1.0 (undergraduate circular index)', Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9' } });
+    const response = await fetch(pageUrl, { signal: controller.signal, redirect: 'follow', headers: { 'User-Agent': 'AdmissionTracker/1.0 (undergraduate circular index)', Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' } });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     if (!isAllowedLink(response.url, source)) throw new Error('Redirected to an unapproved host');
     const contentType = response.headers.get('content-type') || '';
@@ -111,7 +114,6 @@ async function inspectPage(source, pageUrl) {
   } finally { clearTimeout(timeout); }
 }
 async function inspectSource(source) {
-  // Try both official URLs: a blocked notice page need not prevent checking its admissions portal.
   const pages = [...new Set([source.noticeUrl, source.admissionUrl])];
   const results = await Promise.allSettled(pages.map(url => inspectPage(source, url)));
   const found = []; const seen = new Set(); const failures = [];
@@ -120,7 +122,7 @@ async function inspectSource(source) {
     else for (const item of result.value) if (!seen.has(item.url)) { seen.add(item.url); found.push(item); }
   });
   const workingPages = results.filter(result => result.status === 'fulfilled').length;
-  return { found, status: { ok: workingPages > 0, degraded: failures.length > 0, checkedAt: new Date().toISOString(), message: failures.length === pages.length ? `Both official pages could not be checked. ${failures.join('; ')}` : failures.length ? `Some official pages could not be checked; scanned ${workingPages} page(s). ${failures.join('; ')}` : found.length ? `${found.length} matching circular(s) found` : 'No matching undergraduate 2026–27 circular detected' } };
+  return { found, status: { ok: workingPages > 0, degraded: failures.length > 0, checkedAt: new Date().toISOString(), message: failures.length === pages.length ? `Both official pages could not be checked.` : `Checked ${workingPages} of ${pages.length} official pages.` } };
 }
 async function persist() {
   await fs.mkdir(DATA_DIR, { recursive: true }); const tempFile = `${DATA_FILE}.tmp`;
@@ -130,7 +132,8 @@ async function loadData() {
   await fs.mkdir(DATA_DIR, { recursive: true });
   try {
     const saved = JSON.parse(await fs.readFile(DATA_FILE, 'utf8'));
-    db = { circulars: Array.isArray(saved.circulars) ? saved.circulars.filter(item => item.session === '2026-27' && item.level === 'undergraduate') : [], lastCheckedAt: saved.lastCheckedAt || null, sourceStatus: saved.sourceStatus && typeof saved.sourceStatus === 'object' ? saved.sourceStatus : {} };
+    db = { circulars: Array.isArray(saved.circulars) ? saved.circulars.filter(item => item.session === '2026-27' && item.level === 'undergraduate') : [], lastCheckedAt: saved.lastCheckedAt || null, sourceStatus: saved.sourceStatus || {} };
+    if (!Array.isArray(db.circulars)) db.circulars = [];
   } catch (error) { if (error.code !== 'ENOENT') console.error('Could not read circular database:', error.message); await persist(); }
 }
 async function checkAllSources() {
@@ -144,7 +147,7 @@ async function checkAllSources() {
           const id = `${source.id}:${item.url}`; if (db.circulars.some(existing => existing.id === id)) continue;
           db.circulars.unshift({ id, university: source.name, universityId: source.id, type: source.type, sourceUrl: source.noticeUrl, ...item, discoveredAt: new Date().toISOString() }); added++;
         }
-      } catch (error) { db.sourceStatus[source.id] = { ok: false, degraded: true, checkedAt: new Date().toISOString(), message: error.name === 'AbortError' ? 'Timed out; use the official links below.' : `${error.message}; use the official links below.` }; console.warn(`Circular check failed for ${source.name}: ${error.message}`); }
+      } catch (error) { db.sourceStatus[source.id] = { ok: false, degraded: true, checkedAt: new Date().toISOString(), message: error.name === 'AbortError' ? 'Timed out; use the official links below.' : error.message }; }
     }
     db.circulars = db.circulars.slice(0, 1000); db.lastCheckedAt = new Date().toISOString(); await persist(); return { added, checkedAt: db.lastCheckedAt };
   } finally { checkInProgress = false; }
