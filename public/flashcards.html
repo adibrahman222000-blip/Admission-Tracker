@@ -1,146 +1,122 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090810"><meta name="description" content="Practice original Bangla questions and explanations for university and engineering admission preparation."><title>Admission Flashcards · Admission Tracker</title><link rel="icon" type="image/svg+xml" href="/logo.svg">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090810"><meta name="description" content="University and engineering admission practice flashcards with Bangla questions, answers, and explanations."><title>Admission Flashcards · Admission Tracker</title><link rel="icon" type="image/svg+xml" href="/logo.svg">
 <style>
-:root{color-scheme:dark;--bg:#090810;--ink:#f4f2ff;--muted:#a19db4;--line:#ffffff1a;--purple:#a879ff;--cyan:#37f5ed;--field:#100f18}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 12% 0,#a879ff25,transparent 35%),radial-gradient(ellipse at 95% 35%,#37f5ed16,transparent 30%),var(--bg);color:var(--ink);font:15px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}.wrap{width:min(980px,calc(100% - 30px));margin:auto}.top{height:74px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:780;text-decoration:none}.brand img{width:36px;height:36px}.brand small{display:block;color:var(--muted);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}.back{color:var(--cyan);font-size:.75rem;text-decoration:none}.hero{padding:27px 30px;border:1px solid #a879ff55;border-radius:20px;background:linear-gradient(120deg,#1d1531,#261844 58%,#103236)}.eyebrow{color:var(--cyan);font-size:.66rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}.hero h1{margin:7px 0;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-.05em}.hero p{margin:0;color:#ddd8ed;font-size:.85rem}.panel{margin-top:14px;padding:18px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,#14121fe8,#171328dd);box-shadow:0 18px 48px #0005;backdrop-filter:blur(18px)}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.field label{display:block;margin-bottom:5px;color:var(--muted);font-size:.68rem;font-weight:700}.select{width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--field);color:var(--ink);font:inherit;font-size:.76rem}.select:focus{outline:2px solid #37f5ed70;outline-offset:1px}.note{margin:11px 0 0;color:var(--muted);font-size:.68rem}.card-area{perspective:1200px}.flashcard{position:relative;display:grid;place-items:center;width:100%;min-height:290px;padding:25px;border:1px solid #a879ff50;border-radius:17px;background:radial-gradient(ellipse at 80% 10%,#37f5ed14,transparent 40%),linear-gradient(135deg,#211735,#111723);color:var(--ink);text-align:center;cursor:pointer;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.2,.8,.2,1),box-shadow .25s,border-color .25s}.flashcard:hover{box-shadow:0 20px 50px #0007;border-color:#37f5ed80}.flashcard.flipped{transform:rotateY(180deg)}.face{grid-area:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden}.answer{transform:rotateY(180deg)}.label{margin-bottom:13px;color:var(--cyan);font-size:.67rem;font-weight:800;letter-spacing:.1em}.prompt{max-width:760px;font-family:"Noto Sans Bengali","Hind Siliguri",system-ui,sans-serif;font-size:clamp(1.02rem,2.4vw,1.35rem);font-weight:650;line-height:1.75}.explanation{max-width:760px;margin-top:12px;padding:10px 13px;border-left:2px solid var(--purple);background:#a879ff0d;color:#d7d1e8;text-align:left;font-family:"Noto Sans Bengali","Hind Siliguri",system-ui,sans-serif;font-size:.9rem;line-height:1.8}.hint{margin-top:17px;color:var(--muted);font-size:.68rem}.controls{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px}.buttons{display:flex;gap:7px}.button{padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:#ffffff08;color:var(--ink);font:inherit;font-size:.72rem;font-weight:700;cursor:pointer;transition:transform .18s,border-color .18s}.button:hover{transform:translateY(-2px);border-color:var(--cyan)}.button.primary{background:linear-gradient(110deg,#5b35bd,#176e77);border-color:#37f5ed55;color:white}.count{color:var(--muted);font-size:.7rem}.progress{height:4px;margin-top:12px;border-radius:99px;background:#ffffff10;overflow:hidden}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--cyan));transition:width .25s}.empty{padding:19px;border:1px dashed var(--line);border-radius:10px;color:var(--muted);text-align:center;font-size:.77rem}.footer{padding:17px 0 26px;color:var(--muted);font-size:.66rem}@media(max-width:760px){.steps{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.steps{grid-template-columns:1fr}.hero{padding:22px}.panel{padding:14px}.flashcard{min-height:250px;padding:18px}.top{height:65px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+:root{color-scheme:dark;--bg:#090810;--ink:#f4f2ff;--muted:#a19db4;--line:#ffffff1a;--purple:#a879ff;--cyan:#37f5ed;--field:#100f18}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 12% 0,#a879ff25,transparent 35%),radial-gradient(ellipse at 95% 35%,#37f5ed16,transparent 30%),var(--bg);color:var(--ink);font:15px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}.wrap{width:min(980px,calc(100% - 30px));margin:auto}.top{height:74px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:780;text-decoration:none}.brand img{width:36px;height:36px}.brand small{display:block;color:var(--muted);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}.back{color:var(--cyan);font-size:.75rem;text-decoration:none}.hero{padding:26px 29px;border:1px solid #a879ff55;border-radius:20px;background:linear-gradient(120deg,#1d1531,#261844 58%,#103236)}.hero .eyebrow{color:var(--cyan);font-size:.66rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}.hero h1{margin:7px 0;font-size:clamp(2rem,5vw,3rem);line-height:1.1;letter-spacing:-.05em}.hero p{margin:0;color:#ddd8ed;font-size:.84rem}.panel{margin-top:14px;padding:18px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,#14121fe8,#171328dd);box-shadow:0 18px 48px #0005;backdrop-filter:blur(18px)}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.field label{display:block;margin-bottom:5px;color:var(--muted);font-size:.69rem;font-weight:700}.select{width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--field);color:var(--ink);font:inherit;font-size:.77rem}.select:focus{outline:2px solid #37f5ed70;outline-offset:1px}.note{margin:11px 0 0;color:var(--muted);font-size:.68rem}.count{color:var(--muted);font-size:.71rem}.flashcard{position:relative;display:grid;place-items:center;width:100%;min-height:280px;padding:24px;border:1px solid #a879ff50;border-radius:17px;background:radial-gradient(ellipse at 80% 10%,#37f5ed14,transparent 40%),linear-gradient(135deg,#211735,#111723);color:var(--ink);text-align:center;cursor:pointer;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.2,.8,.2,1),box-shadow .25s,border-color .25s}.flashcard:hover{box-shadow:0 20px 50px #0007;border-color:#37f5ed80}.flashcard.flipped{transform:rotateY(180deg)}.face{grid-area:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden}.answer{transform:rotateY(180deg)}.label{margin-bottom:13px;color:var(--cyan);font-size:.66rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.prompt{max-width:760px;font-size:clamp(1.05rem,2.4vw,1.42rem);font-weight:650;line-height:1.7}.explanation{max-width:760px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);color:#d5cfe5;font-size:clamp(.85rem,1.8vw,1rem);line-height:1.75}.hint{margin-top:16px;color:var(--muted);font-size:.68rem}.controls{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px}.buttons{display:flex;gap:7px}.button{padding:9px 13px;border:1px solid var(--line);border-radius:9px;background:#ffffff08;color:var(--ink);font:inherit;font-size:.73rem;font-weight:700;cursor:pointer;transition:transform .18s,border-color .18s}.button:hover{transform:translateY(-2px);border-color:var(--cyan)}.button.primary{background:linear-gradient(110deg,#5b35bd,#176e77);border-color:#37f5ed55;color:white}.progress{height:4px;margin-top:12px;border-radius:99px;background:#ffffff10;overflow:hidden}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--cyan));transition:width .25s}.footer{padding:18px 0 28px;color:var(--muted);font-size:.67rem}@media(max-width:620px){.steps{grid-template-columns:1fr}.hero{padding:22px}.panel{padding:14px}.flashcard{min-height:250px;padding:18px}.top{height:65px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
 </style></head>
-<body><header class="wrap top"><a class="brand" href="/home.html"><img src="/logo.svg" alt=""><span>Admission Tracker<small>Flashcard practice</small></span></a><a class="back" href="/home.html">← Website map</a></header>
-<main class="wrap"><section class="hero"><div class="eyebrow">University & engineering admission practice</div><h1>Practice. Recall. Improve.</h1><p>Choose your academic group, class, admission track, and subject. Questions, answers, and explanations are in Bangla; navigation remains in English.</p></section>
-<section class="panel"><div class="steps"><div class="field"><label for="group">1 · Academic group</label><select class="select" id="group"><option value="">Choose group</option><option value="Science">Science</option><option value="Humanities">Humanities</option><option value="Business Studies">Business Studies</option></select></div><div class="field"><label for="grade">2 · Class / standard</label><select class="select" id="grade" disabled><option value="">Choose class</option><option value="9">Class 9</option><option value="10">Class 10</option><option value="11">Class 11 · HSC 1st year</option><option value="12">Class 12 · HSC 2nd year</option></select></div><div class="field" id="trackField"><label for="track">3 · Admission track</label><select class="select" id="track" disabled><option value="">Choose track</option></select></div><div class="field"><label for="subject">4 · Subject</label><select class="select" id="subject" disabled><option value="">Choose subject</option></select></div></div><p class="note">Science students can select Engineering or University. Humanities and Business Studies students use the University track. Questions are original practice material, not copied from guidebooks. Check formulas, terminology, and syllabus coverage against current board materials.</p></section>
-<section class="panel"><div class="card-area"><button class="flashcard" id="flashcard" type="button" aria-label="Flip card to show answer and explanation"><span class="face question"><span class="label" id="questionLabel">Question</span><span class="prompt" id="question">Choose your group, class, track, and subject to begin.</span><span class="hint">Think through the answer, then click to reveal it</span></span><span class="face answer"><span class="label">Answer & explanation</span><span class="prompt" id="answer"></span><span class="explanation" id="explanation"></span><span class="hint">Click to return to the question</span></span></button></div><div class="controls"><span class="count" id="count">No deck selected</span><div class="buttons"><button class="button" id="previous" type="button">← Previous</button><button class="button" id="shuffle" type="button">Shuffle</button><button class="button primary" id="next" type="button">Next →</button></div></div><div class="progress"><span id="progress"></span></div></section></main><footer class="wrap footer">Practice questions are independently written for revision. They are not official university questions or reproduced guidebook content.</footer>
+<body><header class="wrap top"><a class="brand" href="/home.html"><img src="/logo.svg" alt=""><span>Admission Tracker<small>Admission practice</small></span></a><a class="back" href="/home.html">← Website map</a></header>
+<main class="wrap"><section class="hero"><div class="eyebrow">University & engineering admission practice</div><h1>Practice. Recall. Improve.</h1><p>Choose your group, admission track, and subject. There is no school-class selection here. Flashcard questions, answers, and explanations are in Bangla.</p></section>
+<section class="panel"><div class="steps"><div class="field"><label for="group">1 · Academic group</label><select class="select" id="group"><option value="">Choose group</option><option value="Science">Science</option><option value="Humanities">Humanities</option><option value="Business Studies">Business Studies</option></select></div><div class="field"><label for="track">2 · Admission track</label><select class="select" id="track" disabled><option value="">Choose track</option></select></div><div class="field"><label for="subject">3 · Subject</label><select class="select" id="subject" disabled><option value="">Choose subject</option></select></div></div><p class="note">Science students can choose University or Engineering. Humanities and Business Studies students can choose University only. Questions are original practice material, not copied from UDVASH, Joykoli, Aspect, or other guidebooks; check your current syllabus and books.</p></section>
+<section class="panel"><button class="flashcard" id="flashcard" type="button" aria-label="Flip card to show answer and explanation"><span class="face question"><span class="label" id="questionLabel">Question</span><span class="prompt" id="question">Choose your group, admission track, and subject to begin.</span><span class="hint">Think of the answer, then click to reveal it</span></span><span class="face answer"><span class="label">Answer</span><span class="prompt" id="answer"></span><span class="explanation" id="explanation"></span><span class="hint">Click to return to the question</span></span></button><div class="controls"><span class="count" id="count">No deck selected</span><div class="buttons"><button class="button" id="previous" type="button">← Previous</button><button class="button" id="shuffle" type="button">Shuffle</button><button class="button primary" id="next" type="button">Next →</button></div></div><div class="progress"><span id="progress"></span></div></section></main><footer class="wrap footer">Original admission-style practice · Verify details against official syllabi and current admission circulars.</footer>
 <script>
 (()=>{
 const $=id=>document.getElementById(id);
-const common=['Bangla','English','Information and Communication Technology (ICT)'];
-const lists={Science:{9:['Physics','Chemistry','Biology','Higher Mathematics'],10:['Physics','Chemistry','Biology','Higher Mathematics'],11:['Physics 1st Paper','Chemistry 1st Paper','Biology 1st Paper','Higher Mathematics 1st Paper'],12:['Physics 2nd Paper','Chemistry 2nd Paper','Biology 2nd Paper','Higher Mathematics 2nd Paper']},Humanities:{9:['History','Geography and Environment','Civics and Citizenship','Economics','General Science'],10:['History','Geography and Environment','Civics and Citizenship','Economics','General Science'],11:['History 1st Paper','Geography 1st Paper','Civics and Good Governance 1st Paper','Economics 1st Paper','Logic 1st Paper'],12:['History 2nd Paper','Geography 2nd Paper','Civics and Good Governance 2nd Paper','Economics 2nd Paper','Logic 2nd Paper']},'Business Studies':{9:['Accounting','Finance and Banking','Business Entrepreneurship'],10:['Accounting','Finance and Banking','Business Entrepreneurship'],11:['Accounting 1st Paper','Business Organization and Management 1st Paper','Finance, Banking and Insurance 1st Paper','Production Management and Marketing 1st Paper'],12:['Accounting 2nd Paper','Business Organization and Management 2nd Paper','Finance, Banking and Insurance 2nd Paper','Production Management and Marketing 2nd Paper']}};
-// Original Bengali practice items, written for this site; no guidebook passages copied.
+const subjects={Science:['পদার্থবিজ্ঞান','রসায়ন','উচ্চতর গণিত','জীববিজ্ঞান','ইংরেজি','বাংলা','তথ্য ও যোগাযোগ প্রযুক্তি'],Humanities:['বাংলা','ইংরেজি','সাধারণ জ্ঞান','বাংলাদেশ বিষয়াবলি','আন্তর্জাতিক বিষয়াবলি','অর্থনীতি','ইতিহাস','ভূগোল ও পরিবেশ','পৌরনীতি ও সুশাসন','যুক্তিবিদ্যা'], 'Business Studies':['বাংলা','ইংরেজি','সাধারণ জ্ঞান','হিসাববিজ্ঞান','ব্যবসায় সংগঠন ও ব্যবস্থাপনা','ফিন্যান্স, ব্যাংকিং ও বিমা','উৎপাদন ব্যবস্থাপনা ও বিপণন','অর্থনীতি']};
+// Original practice questions; all math solutions are shown step-by-step in the Bangla explanation.
 const bank={
-'Physics':[
-['স্থির অবস্থা থেকে একটি বস্তু ২ m/s² ত্বরণে ৫ s চলে। শেষ বেগ কত?','১০ m/s।','v = u + at। এখানে u=০, a=২ m/s², t=৫ s; তাই v=০+(২×৫)=১০ m/s।'],
-['২ kg ভরের বস্তুর ত্বরণ ৩ m/s² হলে লব্ধি বল কত?','৬ N।','নিউটনের দ্বিতীয় সূত্র F=ma। সুতরা�� F=২×৩=৬ N।'],
-['একটি বস্তু ১০ m/s সমবেগে ৪ s চললে সরণ কত?','৪০ m।','সমবেগে সরণ s=vt। তাই s=১০×৪=৪০ m।'],
-['৬ Ω রোধে ২ A তড়িৎ প্রবাহিত হলে বিভব পার্থক্য কত?','১২ V।','ওহমের সূত্র V=IR। সুতরাং V=২×৬=১২ V।'],
-['৫ kg বস্তুকে ২ m ওপরে তুললে (g=১০ m/s²) বিভবশক্তির পরিবর্তন কত?','১০০ J বৃদ্ধি পায়।','বিভবশক্তি U=mgh। তাই U=৫×১০×২=১০০ J।'],
-['সমবেগে বৃত্তাকার পথে চললেও বস্তুর ত্বরণ থাকে কেন?','বেগের দিক পরিবর্তিত হয় বলে কেন্দ্রের দিকে ত্বরণ থাকে।','ত্বরণ হলো বেগের পরিবর্তনের হার। বৃত্তাকার গতিতে বেগের মান স্থির থাকলেও দিক বদলায়; কেন্দ্রাভিমুখী ত্বরণ a=v²/r।'],
-['কম্পাঙ্ক ৫০ Hz ও তরঙ্গদৈর্ঘ্য ৪ m হলে তরঙ্গের বেগ কত?','২০০ m/s।','তরঙ্গের বেগ v=fλ। তাই v=৫০×৪=২০০ m/s।'],
-['একটি যন্ত্র ১০ s-এ ২০০ J কাজ করলে ক্ষমতা কত?','২০ W।','ক্ষমতা P=W/t। তাই P=২০০/১০=২০ W।']
-],
-'Chemistry':[
-['একটি নিরপেক্ষ পরমাণুর পারমাণবিক সংখ্যা ১৭। এতে প্রোটন ও ইলেকট্রন কয়টি?','১৭টি প্রোটন ও ১৭টি ইলেকট্রন।','পারমাণবিক সংখ্যা প্রোটন সংখ্যা নির্দেশ করে। নিরপেক্ষ পরমাণুতে প্রোটন ও ইলেকট্রনের সংখ্যা সমান।'],
-['Na-এর ইলেকট্রন বিন্যাস ২,৮,১। Na⁺ আয়ন গঠনে কী ঘটে?','সোডিয়াম পরমাণু বহিঃস্থ স্তরের একটি ইলেকট্রন ত্যাগ করে।','ইলেকট্রন ত্যাগের পর বিন্যাস হয় ২,৮; ফলে প্রোটন সংখ্যা ইলেকট্রনের চেয়ে একটি বেশি এবং আয়নটির আধান +১।'],
-['H₂SO₄-এর একটি অণুতে মোট কয়টি পরমাণু আছে?','৭টি পরমাণু।','২টি হাইড্রোজেন, ১টি সালফার ও ৪টি অক্সিজেন: মোট ২+১+৪=৭।'],
-['২৫°C তাপমাত্রায় pH ৩ হলে দ্রবণটি অম্লীয় না ক্ষারীয়?','অম্লীয়।','২৫°C তাপমাত্রায় pH ৭-এর কম হলে দ্রবণ অম্লীয়, ৭ হলে নিরপেক্ষ, ৭-এর বেশি হলে ক্ষারীয়।'],
-['ক্যালসিয়াম ক্লোরাইডের সংকেত CaCl₂ কেন?','Ca²⁺-এর একটি আধান সাম্য করতে দুটি Cl⁻ প্রয়োজন।','একটি Ca²⁺ ও দুটি Cl⁻ মিলে মোট আধান শূন্য হয়; তাই অনুপাত ১:২ এবং সংকেত CaCl₂।'],
-['ইলেকট্রনের দৃষ্টিতে জারণ কী?','ইলেকট্রন ত্যাগ করাকে জারণ বলে।','জারণে জারণ সংখ্যা বৃদ্ধি পায়। মনে রাখার সহজ নিয়ম: ইলেকট্রন ত্যাগ = জারণ, ইলেকট্রন গ্রহণ = বিজারণ।'],
-['১ mol পদার্থে আনুমানিক কতটি কণা থাকে?','প্রায় ৬.০২২×১০²³টি কণা।','এ সংখ্যাকে অ্যাভোগাড্রো ধ্রুবক বলা হয়; কণাটি পরমাণু, অণু বা আয়ন হতে পারে।']
-],
-'Biology':[
-['কোষশ্বসনের অধিকাংশ ATP কোন অঙ্গাণুতে তৈরি হয়?','মাইটোকন্ড্রিয়ায়।','মাইটোকন্ড্রিয়ার ঝিল্লিতে বায়বীয় শ্বসনের ইলেকট্রন পরিবহন ও ATP তৈরির গুরুত্বপূর্ণ ধাপ ঘটে।'],
-['DNA-তে অ্যাডেনিনের পরিপূরক ক্ষারক কোনটি?','থাইমিন।','DNA-তে A–T এবং G–C পরিপূরক ক্ষারক জোড় গঠন করে। RNA-তে থাইমিনের বদলে ইউরাসিল থাকে।'],
-['জাইলেমের প্রধান কাজ কী?','মূল থেকে পানি ও খনিজ লবণ উদ্ভিদের অন্যান্য অংশে পরিবহন করা।','জাইলেম পানি ও খনিজ পরিবহন করে এবং উদ্ভিদকে দৃঢ়তা দিতেও সাহায্য করে।'],
-['মিয়োসিসে একটি মাতৃকোষ থেকে সাধারণত কয়টি অপত্যকোষ তৈরি হয়?','চারটি হ্যাপ্লয়েড অপত্যকোষ।','মিয়োসিসে পরপর দুটি বিভাজন ঘটে এবং ক্রোমোজোম সংখ্যা অর্ধেক হয়; ফলে সাধারণত চারটি কোষ তৈরি হয়।'],
-['এনজাইম বিক্রিয়ার সক্রিয়ণ শক্তিতে কী প্রভাব ফেলে?','সক্রিয়ণ শক্তি কমিয়ে বিক্রিয়ার গতি বাড়ায়।','এনজাইম বিকল্প প্রতিক্রিয়া-পথ দেয়, যার সক্রিয়ণ শক্তি কম। এনজাইম বিক্রিয়ায় স্থায়ীভাবে ক্ষয় হয় না।']
-],
-'Higher Mathematics':[
-['3x−5=10 হলে x-এর মান কত?','x=৫।','উভয় পাশে ৫ যোগ করলে 3x=15; এরপর ৩ দিয়ে ভাগ করলে x=5।'],
-['x²−5x+6=0 সমীকরণের মূল নির্ণয় কর।','x=২ এবং x=৩।','x²−5x+6=(x−2)(x−3)=0। অতএব x−2=0 অথবা x−3=0।'],
-['দুটি ভেক্টর পরস্পর লম্ব হলে তাদের ডট গুণফল কত?','শূন্য।','a·b=|a||b|cosθ। লম্ব ভেক্টরের মধ্যে θ=৯০°, আর cos৯০°=০।'],
-['sin²θ+cos²θ-এর মান কত?','১।','এটি মৌলিক ত্রিকোণমিতিক অভেদ; সব θ-এর জন্য sin²θ+cos²θ=1।'],
-['৩, ৭, ১১, ... সমান্তর ধারাটির সাধারণ অন্তর কত?','৪।','সাধারণ অন্তর d=দ্বিতীয় পদ−প্রথম পদ=৭−৩=৪।'],
-['(১,২) ও (৪,৬) বিন্দুর দূরত্ব কত?','৫ একক।','দূরত্ব = √[(৪−১)²+(৬−২)²] = √(৯+১৬)=৫।'],
-['x³-এর অন্তরজ কত?','৩x²।','ঘাতের সূত্র অনুযায়ী d(xⁿ)/dx=nxⁿ⁻¹। n=৩ বসালে ৩x²।']
-],
-'Accounting':[
-['হিসাববিজ্ঞানের মৌলিক সমীকরণটি কী?','সম্পদ = দায় + মালিকানা স্বত্ব।','প্রতিষ্ঠানের সম্পদ অর্থায়িত হয় পাওনাদারের দাবি (দায়) ও মালিকের দাবির (মালিকানা স্বত্ব) মাধ্যমে।'],
-['মালিক নগদে মূলধন বিনিয়োগ করলে হিসাব সমীকরণে কী পরিবর্তন হয়?','নগদ সম্পদ এবং মালিকানা স্বত্ব—দুটিই বাড়ে।','নগদ প্রতিষ্ঠানে আসে বলে সম্পদ বাড়ে; বিনিয়োগটি মালিকের দাবি হওয়ায় মালিকানা স্বত্বও সমপরিমাণ বাড়ে।'],
-['রেওয়ামিলের ডেবিট ও ক্রেডিট যোগফল সমান হলেই কি সব ভুল ধরা পড়ে?','না।','ভুল হিসাব নির্বাচন, সম্পূর্ণ বাদ পড়া লেনদেন বা সমপরিমাণ ভুল এন্ট্রি থাকলেও রেওয়ামিল মিলতে পারে।'],
-['ক্রয়মূল্য ১,০০,০০০ টাকা, অবশিষ্ট মূল্য ১০,০০০ টাকা, আয়ুষ্কাল ৫ বছর হলে সরলরৈখিক বার্ষিক অবচয় কত?','১৮,০০০ টাকা।','বার্ষিক অবচয়=(ক্রয়মূল্য−অবশিষ্ট মূল্য)/আয়ুষ্কাল=(১,০০,০০০−১০,০০০)/৫=১৮,০০০ টাকা।'],
-['বাকিতে পণ্য ক্রয় করলে কোন কোন হিসাব সাধারণত প্রভাবিত হয়?','মজুত/ক্রয় বাড়ে এবং পাওনাদার বা প্রদেয় হিসাব বাড়ে।','পণ্য পাওয়া হয়েছে কিন্তু নগদ দেওয়া হয়নি; তাই সম্পদ বা ক্রয় বৃদ্ধি এবং দায়ও বৃদ্ধি পায়। হিসাবের ধরন পাঠ্যসূচির পদ্ধতির ওপর নির্ভর করতে পারে।']
-],
-'Economics':[
-['চাহিদার বিধি অনুযায়ী অন্যান্য বিষয় অপরিবর্তিত থাকলে দাম বাড়লে চাহিদার পরিমাণে কী ঘটে?','সাধারণত চাহিদার পরিমাণ কমে।','দাম ও চাহিদার পরিমাণের মধ্যে বিপরীত সম্পর্ক থাকে—অন্যান্য বিষয় অপরিবর্তিত থাকার শর্তে।'],
-['সুযোগ ব্যয় কী?','একটি বিকল্প বেছে নেওয়ার ফলে ত্যাগ করা পরবর্তী সর্বোত্তম বিকল্পের মূল্য।','সুযোগ ব্যয় সিদ্ধান্তের প্রকৃত ত্যাগ বোঝায়; ত্যাগ করা সব বিকল্পের যোগফল নয়, পরবর্তী সেরা বিকল্পটি।'],
-['একটি পণ্যের দাম ১০% বাড়লে চাহিদার পরিমাণ ২০% কমে। আনুমানিক মূল্যস্থিতিস্থাপকতা কত?','−২; মানের দিক থেকে ২।','স্থিতিস্থাপকতা = চাহিদার শতকরা পরিবর্তন/দামের শতকরা পরিবর্তন = −২০%/১০%=−২। অনেক ক্ষেত্রে মান ২ লেখা হয়।'],
-['মুদ্রাস্ফীতিতে টাকার ক্রয়ক্ষমতার কী হয়?','সাধারণত কমে যায়।','সাধারণ মূল্যস্তর বাড়লে একই পরিমাণ টাকা দিয়ে আগের তুলনায় কম পণ্য ও সেবা কেনা যায়।']
-],
-'Bangla':[
-['“রাজপুত্র” কোন সমাসের উদাহরণ?','ষষ্ঠী তৎপুরুষ সমাস।','ব্যাসবাক্য: রাজার পুত্র। এখানে “রাজার” পদের ষষ্ঠী বিভক্তি লোপ পেয়েছে।'],
-['“নীলকমল” শব্দটির ব্যাসবাক্য কী?','নীল যে কমল।','এখানে “নীল” বিশেষণ এবং “কমল” বিশেষ্য; বিশেষণ-विशेष্য সম্পর্ক থাকায় এটি কর্মধারয় সমাস।'],
-['“দুর্জন” শব্দে উপসর্গ কোনটি?','“দুর্” উপসর্গ।','“দুর্” উপসর্গ “জন” শব্দের আগে যুক্ত হয়ে মন্দ বা খারাপ ব্যক্তি অর্থ প্রকাশ করে।'],
-['“আকাশ-কুসুম” বাগধারার অর্থ কী?','অবাস্তব কল্পনা বা অসম্ভব আশা।','আকাশে ফুল ফোটার কল্পনা বাস্তবে সম্ভব নয়; তাই বাগধারাটি অবাস্তব কল্পনা বোঝায়।']
-],
-'English':[
-['Choose the correct verb: “Neither of the students ___ absent.”','is','“Neither” is treated as singular in this construction, so it takes the singular verb “is.”'],
-['Change into passive voice: “They completed the work.”','The work was completed by them.','The object “the work” becomes the subject. Past simple passive uses was/were + past participle.'],
-['Identify the clause: “Although it was raining, we continued the match.”','“Although it was raining” is a subordinate adverbial clause.','It expresses contrast or concession and depends on the main clause “we continued the match.”']
-],
-'Information and Communication Technology (ICT)':[
-['দশমিক ১৩-এর বাইনারি রূপ কী?','(১১০১)₂।','১৩=৮+৪+১=২³+২²+২⁰; তাই বাইনারি অঙ্ক ১১০১।'],
-['অ্যালগরিদম কী?','সমস্যা সমাধানের জন্য সসীম, সুনির্দিষ্ট ও ধারাবাহিক নির্দেশনার সমষ্টি।','কার্যকর অ্যালগরিদমে ধাপগুলো দ্ব্যর্থহীন হয় এবং নির্দিষ্ট সংখ্যক ধাপে শেষ হয়।'],
-['ডেটাবেজে Primary Key-এর কাজ কী?','প্রতিটি রেকর্ডকে স্বতন্ত্রভাবে শনাক্ত করা।','Primary key-এর মান প্রতিটি রেকর্ডের জন্য আলাদা থাকে; সাধারণত এটি ফাঁকা রাখা যায় না।']
-],
-'History':[
-['ইতিহাসে প্রাথমিক উৎস বলতে কী বোঝায়?','আলোচ্য সময়ের প্রত্যক্ষ দলিল, বস্তু বা বিবরণকে প্রাথমিক উৎস বলে।','চিঠি, সরকারি নথি, শিলালিপি, মুদ্রা বা প্রত্যক্ষদর্শীর বিবরণ এর উদাহরণ; উৎসের পক্ষপাতও যাচাই করা প্রয়োজন।'],
-['ইতিহাসবিদেরা একাধিক উৎস তুলনা করেন কেন?','তথ্যের নির্ভরযোগ্যতা ও ভিন্ন দৃষ্টিভঙ্গি যাচাই করতে।','উৎসগুলোর মিল-অমিল পরীক্ষা করলে একক বিবরণের সীমাবদ্ধতা বোঝা যায় এবং প্রমাণভিত্তিক ব্যাখ্যা তৈরি হয়।']
-],
-'Geography and Environment':[
-['নিরক্ষরেখার অক্ষাংশ কত?','০°।','নিরক্ষরেখা পৃথিবীর উত্তর ও দক্ষিণ গোলার্ধের বিভাজক এবং অক্ষাংশ গণনার সূচনরেখা।'],
-['নদীর মোহনায় পলি সঞ্চিত হয়ে গঠিত ভূমিরূপের নাম কী?','ব-দ্বীপ।','মোহনায় নদীর স্রোত ধীর হলে বহন করা পলি জমা হয়; দীর্ঘ সময়ে এই সঞ্চয়ে ব-দ্বীপ গড়ে ওঠে।']
-],
-'Civics and Good Governance':[
-['জবাবদিহি বলতে কী বোঝায়?','কাজ ও সিদ্ধান্তের ব্যাখ্যা দেওয়া এবং তার জন্য দায়িত্ব নেওয়া।','জবাবদিহি ব্যক্তি বা প্রতিষ্ঠানকে দায়িত্বশীল রাখে; এর সঙ্গে স্বচ্ছতা ও নিয়মিত তদারকির সম্পর্ক আছে।']
-],
-'Logic':[
-['একটি যুক্তির আশ্রয়বাক্য কী?','যে বক্তব্য উপসংহারের পক্ষে কারণ বা প্রমাণ হিসেবে দেওয়া হয়।','একটি যুক্তিতে এক বা একাধিক আশ্রয়বাক্য থাকতে পারে; সেগুলোর ভিত্তিতে উপসংহার প্রতিষ্ঠার চেষ্টা করা হয়।']
-],
-'Finance and Banking':[
-['মূলধন ৫,০০০ টাকা, বার্ষিক সরল মুনাফার হার ৮% এবং সময় ২ বছর হলে মুনাফা কত?','৮০০ টাকা।','সরল মুনাফা=মূলধন×হার×সময়=৫,০০০×০.০৮×২=৮০০ টাকা।'],
-['চক্রবৃদ্ধি মুনাফায় মুনাফা কোন অর্থের ওপর গণনা হয়?','মূলধন এবং পূর্বে জমা হওয়া মুনাফাসহ মোট অর্থের ওপর।','প্রতিটি সময় শেষে অর্জিত মুনাফা মূলধনের সঙ্গে যুক্ত হয়; পরবর্তী সময়ে সেই নতুন মোট অর্থের ওপর মুনাফা হিসাব হয়।']
-],
-'Business Entrepreneurship':[
-['উদ্যোক্তার একটি গুরুত্বপূর্ণ কাজ কী?','ব্যবসায়িক সুযোগ শনাক্ত করে সম্পদ সংগঠিত করা এবং ঝুঁকি নিয়ে উদ্যোগ পরিচালনা করা।','উদ্যোক্তা গ্রাহকের প্রয়োজন বোঝেন, পরিকল্পনা করেন এবং অনিশ্চয়তার মধ্যে সিদ্ধান্ত নেন।']
-],
-'Business Organization and Management':[
-['ব্যবস্থাপনার প্রধান কাজগুলো কী?','পরিকল্পনা, সংগঠন, কর্মীসংস্থান, নির্দেশনা/নেতৃত্ব এবং নিয়ন্ত্রণ।','এই কাজগুলো সমন্বয়ের মাধ্যমে প্রতিষ্ঠানের লক্ষ্য অর্জনে মানবিক ও অন্যান্য সম্পদ ব্যবহার করা হয়।']
-],
-'Finance, Banking and Insurance':[
-['বিমায় ঝুঁকি বণ্টন বা risk pooling কী?','অনেক বিমাগ্রহীতার প্রিমিয়াম একত্র করে কয়েকজনের আচ্ছাদিত ক্ষতিপূরণ দেওয়া।','বড় গোষ্ঠীর মধ্যে আর্থিক ঝুঁকি ভাগ হওয়ায় কোনো একজনের ক্ষতি একা বহন করতে হয় না; পলিসির শর্ত প্রযোজ্য।']
-],
-'Production Management and Marketing':[
-['বিপণনের 4P কী কী?','Product, Price, Place ও Promotion—পণ্য, মূল্য, বিতরণস্থান এবং প্রসার।','লক্ষ্য গ্রাহকের কাছে পণ্য বা সেবা পৌঁছাতে এই চারটি উপাদান সমন্বিতভাবে নির্ধারণ করা হয়।']
-]};
+'পদার্থবিজ্ঞান':[
+['স্থির অবস্থা থেকে একটি বস্তু ২ m/s² ত্বরণে ৫ s চলে। শেষ বেগ কত?','১০ m/s।','v=u+at। এখানে u=০, a=২ m/s², t=৫ s। তাই v=০+(২×৫)=১০ m/s।'],
+['২ kg ভরের বস্তুর ত্বরণ ৩ m/s² হলে লব্ধি বল কত?','৬ N।','নিউটনের দ্বিতীয় সূত্র F=ma। তাই F=২×৩=৬ N।'],
+['একটি বস্তু ১০ m/s সমবেগে ৪ s চললে সরণ কত?','৪০ m।','s=vt=১০×৪=৪০ m।'],
+['৬ Ω রোধে ২ A তড়িৎ প্রবাহিত হলে বিভব পার্থক্য কত?','১২ V।','ওহমের সূত্র V=IR। তাই V=২×৬=১২ V।'],
+['৫ kg বস্তুকে ২ m ওপরে তুললে g=১০ m/s² ধরে বিভবশক্তির পরিবর্তন কত?','১০০ J।','ΔU=mgh=৫×১০×২=১০০ J।'],
+['সমবেগ বৃত্তীয় গতিতে বেগের কোন বৈশিষ্ট্যটি পরিবর্তিত হয়?','বেগের দিক পরিবর্তিত হয়; তাই কেন্দ্রাভিমুখী ত্বরণ থাকে।','বেগ ভেক্টর রাশি। দ্রুতি স্থির হলেও দিক বদলায়। কেন্দ্রাভিমুখী ত্বরণ a=v²/r।'],
+['কম্পাঙ্ক ৫০ Hz ও তরঙ্গদৈর্ঘ্য ৪ m হলে তরঙ্গের বেগ কত?','২০০ m/s।','v=fλ=৫০×৪=২০০ m/s।'],
+['১০ s-এ ২০০ J কাজ হলে ক্ষমতা কত?','২০ W।','P=W/t=২০০/১০=২০ J/s=২০ W।'],
+['সমান্তরালে ৬ Ω ও ৩ Ω রোধের তুল্য রোধ কত?','২ Ω।','1/R=1/6+1/3=1/2; তাই R=২ Ω।'],
+['ভরবেগ ১২ kg·m/s ও ভর ৩ kg হলে বেগ কত?','৪ m/s।','p=mv; তাই v=p/m=১২/৩=৪ m/s।']],
+'রসায়ন':[
+['পারমাণবিক সংখ্যা ১৭ হলে একটি নিরপেক্ষ পরমাণুতে প্রোটন ও ইলেকট্রন কয়টি?','১৭টি প্রোটন ও ১৭টি ইলেকট্রন।','পারমাণবিক সংখ্যা প্রোটন সংখ্যা। নিরপেক্ষ পরমাণুতে প্রোটন ও ইলেকট্রন সমান।'],
+['Na-এর ইলেকট্রন বিন্যাস ২,৮,১। Na⁺ আয়ন কীভাবে গঠিত হয়?','বহিঃস্থ স্তরের ১টি ইলেকট্রন ত্যাগ করে।','ইলেকট্রন ত্যাগের পর বিন্যাস ২,৮ হয়। প্রোটন সংখ্যা অপরিবর্তিত থাকায় আয়নের আধান +১।'],
+['H₂SO₄-এর একটি অণুতে মোট কয়টি পরমাণু থাকে?','৭টি।','২টি H + ১টি S + ৪টি O = মোট ৭টি পরমাণু।'],
+['২৫°C তাপমাত্রায় pH ৩ হলে দ্রবণটি কেমন?','অম্লীয়।','২৫°C-এ pH ৭-এর কম হলে অম্লীয়; ৭ নিরপেক্ষ এবং ৭-এর বেশি ক্ষারীয়।'],
+['ক্যালসিয়াম ক্লোরাইডের রাসায়নিক সংকেত CaCl₂ কেন?','একটি Ca²⁺ আয়নের আধান সাম্য করতে দুটি Cl⁻ লাগে।','মোট আধান +২+২(−১)=০; তাই নিরপেক্ষ যৌগের সংকেত CaCl₂।'],
+['ইলেকট্রনের দৃষ্টিতে জারণ কী?','ইলেকট্রন ত্যাগ।','ইলেকট্রন ত্যাগে জারণ সংখ্যা বাড়ে; একে জারণ বলে।'],
+['১ mol পদার্থে আনুমানিক কয়টি কণা থাকে?','৬.০২২×১০²³টি।','এটি অ্যাভোগাড্রো ধ্রুবক; কণা পরমাণু, অণু বা আয়ন হতে পারে।'],
+['১০ g CaCO₃-এর মোল সংখ্যা কত? মোলার ভর ১০০ g/mol।','০.১ mol।','n=m/M=১০/১০০=০.১ mol।']],
+'উচ্চতর গণিত':[
+['3x−5=10 হলে x কত?','x=৫।','উভয় পাশে ৫ যোগ: 3x=15। ৩ দিয়ে ভাগ করলে x=5।'],
+['x²−5x+6=0 সমীকরণের মূল নির্ণয় কর।','x=২ অথবা x=৩।','x²−5x+6=(x−2)(x−3)=0; তাই x−2=0 বা x−3=0।'],
+['(১,২) ও (৪,৬) বিন্দুর মধ্যবর্তী দূরত্ব কত?','৫ একক।','দূরত্ব=√[(৪−১)²+(৬−২)²]=√(৯+১৬)=৫।'],
+['x³-এর অন্তরজ কত?','৩x²।','ঘাতের সূত্র d(xⁿ)/dx=nxⁿ⁻¹। n=৩ বসালে ৩x²।'],
+['x²-এর অনির্দিষ্ট সমাকলন কত?','x³/3+C।','∫xⁿdx=xⁿ⁺¹/(n+1)+C; n=২ বসালে x³/3+C।'],
+['sin²θ+cos²θ-এর মান কত?','১।','এটি মৌলিক ত্রিকোণমিতিক অভেদ: sin²θ+cos²θ=1।'],
+['দুটি ভেক্টর লম্ব হলে তাদের ডট গুণফল কত?','শূন্য।','a·b=|a||b|cosθ। θ=৯০° হলে cosθ=০।'],
+['3, 7, 11, ... ধারাটির ২০তম পদ কত?','৭৯।','সমান্তর ধারায় aₙ=a+(n−1)d। এখানে a=৩, d=৪। a₂₀=৩+১৯×৪=৭৯।'],
+['একটি 2×2 ম্যাট্রিক্স [[a,b],[c,d]]-এর determinant কত?','ad−bc।','দ্বিতীয় ক্রমের determinant-এর সূত্র: প্রধান কর্ণের গুণফল ad থেকে অপর কর্ণের গুণফল bc বিয়োগ।'],
+['z=3+4i হলে |z| কত?','৫।','|a+bi|=√(a²+b²)। তাই |z|=√(৯+১৬)=৫।'],
+['দুটি অশূন্য ভেক্টরের ডট গুণফল শূন্য হলে তাদের মধ্যবর্তী কোণ কত?','৯০°।','a·b=|a||b|cosθ। ভেক্টর দুটি অশূন্য বলে cosθ=0, অতএব θ=৯০°।'],
+['x²−4x+4=0 সমীকরণের বিচ্যুতি (discriminant) কত এবং মূলের প্রকৃতি কী?','বিচ্যুতি ০; দুটি সমান বাস্তব মূল।','D=b²−4ac=(−4)²−4×1×4=১৬−১৬=০। মূল দুটি x=২।'],
+['একটি মুদ্রা দুইবার নিক্ষেপে ঠিক একটি Head পাওয়ার সম্ভাবনা কত?','১/২।','সমান সম্ভাব্য ফল HH, HT, TH, TT। অনুকূল ২টি; তাই P=২/৪=১/২।'],
+['(1+x)⁵-এর বিস্তারে x²-এর সহগ কত?','১০।','দ্বিপদী উপপাদ্যে x²-এর সহগ C(5,2)=5!/(2!3!)=১০।'],
+['2x+3y=12 সরলরেখার ঢাল কত?','−২/৩।','y=−(2/3)x+4 আকারে লিখলে ঢাল x-এর সহগ, অর্থাৎ −২/৩।']],
+'জীববিজ্ঞান':[
+['কোষশ্বসনের অধিকাংশ ATP কোন অঙ্গাণুতে তৈরি হয়?','মাইটোকন্ড্রিয়ায়।','মাইটোকন্ড্রিয়ার অভ্যন্তরীণ ঝিল্লিতে বায়বীয় শ্বসনের গুরুত্বপূর্ণ ধাপ ঘটে এবং অধিকাংশ ATP তৈরি হয়।'],
+['DNA-তে অ্যাডেনিনের পরিপূরক ক্ষারক কোনটি?','থাইমিন।','DNA-তে A–T এবং G–C পরিপূরক ক্ষারক জোড়া।'],
+['জাইলেমের প্রধান কাজ কী?','মূল থেকে পানি ও খনিজ লবণ উদ্ভিদের অন্যান্য অংশে পরিবহন।','জাইলেম পরিবহন টিস্যু; এর কিছু কোষ উদ্ভিদকে দৃঢ়তাও দেয়।'],
+['মিয়োসিসে একটি মাতৃকোষ থেকে সাধারণত কয়টি অপত্যকোষ তৈরি হয়?','চারটি হ্যাপ্লয়েড কোষ।','পরপর দুটি বিভাজনের ফলে ক্রোমোজোম সংখ্যা অর্ধেক হয়ে সাধারণত চারটি কোষ তৈরি হয়।'],
+['মানবদেহে ইনসুলিন কোথা থেকে নিঃসৃত হয়?','অগ্ন্যাশয়ের ল্যাঙ্গারহ্যান্সের দ্বীপিকার বিটা কোষ থেকে।','ইনসুলিন রক্তে গ্লুকোজের মাত্রা নিয়ন্ত্রণে সাহায্য করে।']],
+'বাংলা':[
+['“রাজপুত্র” কোন সমাসের উদাহরণ?','ষষ্ঠী তৎপুরুষ সমাস।','ব্যাসবাক্য “রাজার পুত্র”; ষষ্ঠী বিভক্তি লোপ পেয়ে পদ দুটি যুক্ত হয়েছে।'],
+['“আকাশ-কুসুম” বাগধারার অর্থ কী?','অবাস্তব কল্পনা বা অসম্ভব আশা।','আকাশে ফুল ফোটা অসম্ভব—এই ভাব থেকে বাগধারাটির অর্থ হয়েছে অবাস্তব কল্পনা।']],
+'ইংরেজি':[
+['“Neither of the students ___ absent.”—শূন্যস্থানে কী বসবে?','is।','এখানে “Neither” একবচন অর্থে ব্যবহৃত; তাই একবচন verb “is” হবে।'],
+['“They completed the work.”—বাক্যটির passive voice কী?','The work was completed by them.','কর্ম “the work” subject হয়; past simple passive-এর গঠন was/were + past participle।']],
+'তথ্য ও যোগাযোগ প্রযুক্তি':[
+['দশমিক ১৩-এর বাইনারি রূপ কী?','(১১০১)₂।','১৩=৮+৪+১=২³+২²+২⁰; তাই বাইনারি রূপ ১১০১।'],
+['ডেটাবেজে Primary Key-এর কাজ কী?','প্রতিটি রেকর্ডকে স্বতন্ত্রভাবে শনাক্ত করা।','Primary key-এর মান প্রতিটি রেকর্ডে আলাদা থাকে এবং সাধারণত null হয় না।']],
+'সাধারণ জ্ঞান':[
+['বাংলাদেশের সংবিধান কার্যকর হয় কবে?','১৬ ডিসেম্বর ১৯৭২।','গণপরিষদে গৃহীত সংবিধান ১৬ ডিসেম্বর ১৯৭২ থেকে কার্যকর হয়।'],
+['জাতিসংঘ প্রতিষ্ঠিত হয় কবে?','২৪ অক্টোবর ১৯৪৫।','জাতিসংঘ সনদ কার্যকর হওয়ার দিনটি প্রতিবছর United Nations Day হিসেবে পালিত হয়।']],
+'বাংলাদেশ বিষয়াবলি':[['বাংলাদেশের জাতীয় সংসদ ভবনের স্থপতি কে?','লুই আই. কান।','জাতীয় সংসদ ভবন ঢাকার শেরেবাংলা নগরে অবস্থিত; এর নকশা করেন স্থপতি Louis Isadore Kahn।']],
+'আন্তর্জাতিক বিষয়াবলি':[['সার্ক (SAARC) প্রতিষ্ঠিত হয় কোন সালে?','১৯৮৫ সালে।','দক্ষিণ এশীয় আঞ্চলিক সহযোগিতা সংস্থা SAARC ১৯৮৫ সালে প্রতিষ্ঠিত হয়।']],
+'ইতিহাস':[['ইতিহাসে প্রাথমিক উৎস কী?','আলোচ্য সময়ের প্রত্যক্ষ দলিল, বস্তু বা বিবরণ।','চিঠি, সরকারি নথি, শিলালিপি, মুদ্রা ও প্রত্যক্ষদর্শীর বিবরণ প্রাথমিক উৎসের উদাহরণ।']],
+'ভূগোল ও পরিবেশ':[['নিরক্ষরেখার অক্ষাংশ কত?','০°।','নিরক্ষরেখা পৃথিবীকে উত্তর ও দক্ষিণ গোলার্ধে ভাগ করে এবং অক্ষাংশের মূলরেখা।']],
+'পৌরনীতি ও সুশাসন':[['আইনের শাসন বলতে কী বোঝায়?','সব ব্যক্তি ও প্রতিষ্ঠান আইনের অধীন থাকবে এবং আইন ন্যায়সংগতভাবে প্রয়োগ হবে—এই নীতি।','আইনের শাসন সমতা, জবাবদিহি ও ন্যায়বিচারের ভিত্তি গড়ে।']],
+'যুক্তিবিদ্যা':[['বৈধ অবরোহ যুক্তি কী?','আশ্রয়বাক্য সত্য হলে উপসংহার মিথ্যা হতে পারে না—এমন যুক্তি।','বৈধতা যুক্তির গঠন বোঝায়; আশ্রয়বাক্য বাস্তবে সত্য কি না তা আলাদা বিষয়।']],
+'হিসাববিজ্ঞান':[['হিসাববিজ্ঞানের মৌলিক সমীকরণ কী?','সম্পদ = দায় + মালিকানা স্বত্ব।','প্রতিষ্ঠানের সম্পদের অর্থায়ন আসে পাওনাদারের দাবি বা মালিকের দাবি থেকে।'],['মূলধন ১,০০,০০০ টাকা, অবশিষ্ট মূল্য ১০,০০০ টাকা ও আয়ুষ্কাল ৫ বছর হলে সরলরৈখিক বার্ষিক অবচয় কত?','১৮,০০০ টাকা।','বার্ষিক অবচয়=(১,০০,০০০−১০,০০০)÷৫=১৮,০০০ টাকা।']],
+'ব্যবसाय সংগঠন ও ব্যবস্থাপনা':[['ব্যবস্থাপনার প্রধান কাজগুলো কী?','পরিকল্পনা, সংগঠন, নির্দেশনা ও নিয়ন্ত্রণ।','এসব কাজের মাধ্যমে প্রতিষ্ঠানের সম্পদ ও কর্মীদের লক্ষ্য অর্জনে সমন্বয় করা হয়।']],
+'ফিন্যান্স, ব্যাংকিং ও বিমা':[['৫,০০০ টাকার ওপর বার্ষিক ৮% সরল মুনাফায় ২ বছরে মুনাফা কত?','৮০০ টাকা।','I=Prt=৫,০০০×০.০৮×২=৮০০ টাকা।']],
+'উৎপাদন ব্যবস্থাপনা ও বিপণন':[['বিপণনের 4P কী কী?','পণ্য, মূল্য, স্থান/বিতরণ এবং প্রসার।','ইংরেজিতে Product, Price, Place, Promotion। লক্ষ্য বাজারে পণ্য পৌঁছাতে এগুলো সমন্বিত হয়।']]
+};
 const engineering={
-'Physics':[
-['একটি প্রক্ষেপক u বেগে θ কোণে নিক্ষিপ্ত হলে একই সমতলে পাল্লার সূত্র কী?','R = u²sin(2θ)/g।','অনুভূমিক বেগ u cosθ এবং উড্ডয়নকাল 2u sinθ/g। পাল্লা = অনুভূমিক বেগ × উড্ডয়নকাল; বায়ুর বাধা উপেক্ষিত এবং নিক্ষেপ-অবতরণ উচ্চতা সমান ধরা হয়েছে।'],
-['সমবেগ বৃত্তীয় গতিতে কৌণিক বেগ ω হলে কেন্দ্রাভিমুখী ত্বরণ কত?','a = ω²r।','রৈখিক বেগ v=ωr এবং a=v²/r। বসালে a=ω²r পাওয়া যায়; দিক বৃত্তের কেন্দ্রের দিকে।'],
-['ধারকত্ব C-এর ধারকে বিভব পার্থক্য V হলে সঞ্চিত শক্তি কত?','U = ½CV²।','ধারকে চার্জ সঞ্চয়ে ধাপে ধাপে কাজ করতে হয়; মোট সঞ্চিত শক্তি U=QV/2 এবং Q=CV, তাই U=½CV²।'],
-['দুটি ৬ Ω রোধ সমান্তরালে যুক্ত হলে তুল্য রোধ কত?','৩ Ω।','সমান্তরালে 1/R=1/6+1/6=1/3; তাই R=3 Ω।'],
-['ফোটনের শক্তি E ও কম্পাঙ্ক f-এর সম্পর্ক কী?','E=hf।','এখানে h প্ল্যাঙ্ক ধ্রুবক। কম্পাঙ্ক যত বেশি, ফোটনের শক্তিও তত বেশি।'],
-['একটি বস্তুর ভর দ্বিগুণ এবং বেগ অর্ধেক হলে গতিশক্তির কী পরিবর্তন হয়?','গতিশক্তি অর্ধেক হয়।','K=½mv²। নতুন K′=½(2m)(v/2)²=¼mv²; আগের K=½mv², তাই K′=K/2।'],
-['দুটি ৪ μF ধারক শ্রেণিতে যুক্ত হলে তুল্য ধারকত্ব কত?','২ μF।','শ্রেণি সংযোগে 1/C=1/C₁+1/C₂=1/4+1/4=1/2; তাই C=2 μF।']
-],
-'Higher Mathematics':[
-['(১,২) ও (৪,৬) বিন্দু দিয়ে অতিক্রান্ত সরলরেখার ঢাল কত?','৪/৩।','ঢাল m=(y₂−y₁)/(x₂−x₁)=(৬−২)/(৪−১)=৪/৩।'],
-['x²−5x+6=0 সমীকরণের মূল কী?','২ ও ৩।','সমীকরণটি (x−2)(x−3)=0 আকারে বিশ্লেষণ করলে x=2 অথবা x=3।'],
-['দুটি ভেক্টরের মান a ও b এবং অন্তর্ভুক্ত কোণ θ হলে ডট গুণফল কী?','a·b=ab cosθ।','ডট গুণফল একটি স্কেলার রাশি। θ=৯০° হলে cosθ=০, তাই ডট গুণফল শূন্য।'],
-['x²-এর অনির্দিষ্ট সমাকলন কী?','x³/3 + C।','ঘাতের সমাকলন সূত্রে ∫xⁿdx=xⁿ⁺¹/(n+1)+C, যেখানে n≠−1। n=2 বসালে ফল x³/3+C।'],
-['একটি 2×2 ম্যাট্রিক্স [[a,b],[c,d]]-এর determinant কী?','ad−bc।','প্রধান কর্ণের গুণফল থেকে অপর কর্ণের গুণফল বিয়োগ করলে determinant পাওয়া যায়।']
-],
-'Chemistry':[
-['প্রথম ক্রমের বিক্রিয়ার অর্ধায়ু প্রাথমিক ঘনমাত্রার ওপর নির্ভর করে কি?','না; নির্দিষ্ট তাপমাত্রায় প্রথম ক্রমের বিক্রিয়ার অর্ধায়ু প্রাথমিক ঘনমাত্রা-নিরপেক্ষ।','প্রথম ক্রমে t₁/₂=0.693/k, যেখানে k বেগ ধ্রুবক। তাপমাত্রা বদলালে k বদলাতে পারে।'],
-['একটি বাফার দ্রবণ অল্প অ্যাসিড যোগ করলে pH পরিবর্তন কমায় কীভাবে?','বাফারের ক্ষারীয় উপাদান যোগ করা H⁺ আয়নকে গ্রহণ করে।','দুর্বল অ্যাসিড ও তার অনুবন্ধী ক্ষার বা উল্টো জোড়া উপস্থিত থাকায় অল্প অ্যাসিড/ক্ষার নিরপেক্ষ হয়; ফলে pH তুলনামূলক স্থির থাকে।'],
-['জারণ-বিজারণ বিক্রিয়ায় জারক পদার্থ নিজে কী হয়?','নিজে বিজারিত হয়।','জারক অন্য পদার্থ থেকে ইলেকট্রন গ্রহণ করায় অপরটির জারণ ঘটায়; ইলেকট্রন গ্রহণকারী জারক নিজে বিজারণ প্রক্রিয়ায় যায়।'],
-['STP-তে আদর্শ গ্যাসের ১ mol-এর আয়তন আনুমানিক কত?','প্রচলিত ০°C ও ১ atm সংজ্ঞায় প্রায় ২২.৪ L।','PV=nRT থেকে n=1 mol, T=273.15 K ও P=1 atm বসালে প্রায় ২২.৪ L পাওয়া যায়। STP-এর সংজ্ঞা ভিন্ন হলে মানও ভিন্ন হতে পারে।']
-]};
-function norm(s){return s.replace(/\s+(1st|2nd) Paper$/,'');}
-function options(el,items,placeholder){el.innerHTML=`<option value="">${placeholder}</option>`;items.forEach(item=>{const o=document.createElement('option');o.value=item;o.textContent=item;el.append(o);});}
-function setTrack(){const group=$('group').value,track=$('track');if(!group){track.disabled=true;options(track,[],'Choose track');return;}const choices=group==='Science'?['University','Engineering']:['University'];track.disabled=false;options(track,choices,'Choose track');if(choices.length===1)track.value='University';populateSubjects();}
-function populateSubjects(){const group=$('group').value,grade=$('grade').value,track=$('track').value,subject=$('subject');if(!group||!grade||!track){subject.disabled=true;options(subject,[],'Choose subject');reset();return;}const commonSubjects=common;let list=[...commonSubjects,...(lists[group]?.[grade]||[])];if(track==='Engineering')list=[...commonSubjects,'Physics','Chemistry','Higher Mathematics'];subject.disabled=false;options(subject,[...new Set(list)],'Choose subject');reset();}
-let deck=[],index=0;
-function makeDeck(name){const key=norm(name);const source=$('track').value==='Engineering'&&engineering[key]?engineering[key]:bank[key];return (source||[]).map(([q,a,e])=>({q,a,e}));}
-function show(){const card=deck[index];$('flashcard').classList.remove('flipped');if(!card){$('questionLabel').textContent=$('subject').value?'Question bank':'Question';$('question').textContent=$('subject').value?'No practice cards are available for this subject yet. Please choose another subject.':'Choose your group, class, admission track, and subject to begin.';$('answer').textContent='';$('explanation').textContent='';$('count').textContent='No deck selected';$('progress').style.width='0%';return;}$('questionLabel').textContent=`${$('group').value} · Class ${$('grade').value} · ${$('track').value} · ${$('subject').value}`;$('question').textContent=card.q;$('answer').textContent=card.a;$('explanation').textContent=`ব্যাখ্যা: ${card.e}`;$('count').textContent=`Card ${index+1} of ${deck.length}`;$('progress').style.width=`${((index+1)/deck.length)*100}%`;}
+'পদার্থবিজ্ঞান':[
+['একটি প্রক্ষেপক u বেগে θ কোণে নিক্ষিপ্ত হলে একই সমতলে পাল্লার সূত্র কী?','R=u²sin2θ/g।','অনুভূমিক বেগ ucosθ এবং উড্ডয়নকাল 2usinθ/g। গুণ করলে R=u²sin2θ/g পাওয়া যায়; বায়ুর বাধা উপেক্ষিত।'],
+['কৌণিক বেগ ω ও ব্যাসার্ধ r হলে কেন্দ্রাভিমুখী ত্বরণ কত?','a=ω²r।','v=ωr এবং a=v²/r। বসালে a=(ωr)²/r=ω²r।'],
+['ধারকত্ব C ও বিভব V হলে ধারকে সঞ্চিত শক্তি কত?','U=½CV²।','U=½QV এবং Q=CV; তাই U=½CV²।'],
+['ফোটনের শক্তি ও কম্পাঙ্কের সম্পর্ক কী?','E=hf।','h প্ল্যাঙ্ক ধ্রুবক। কম্পাঙ্ক f বাড়লে ফোটনের শক্তিও সমানুপাতিকভাবে বাড়ে।'],
+['ভর দ্বিগুণ এবং বেগ অর্ধেক হলে গতিশক্তি কত গুণ হয়?','আগের অর্ধেক।','K=½mv²। নতুন K′=½(2m)(v/2)²=mv²/4, যা পুরোনো mv²/2-এর অর্ধেক।'],
+['৫০ Hz AC উৎসের পর্যায়কাল কত?','০.০২ s।','T=1/f=1/50=0.02 s।'],
+['সমান ৪ μF ধারক দুটি শ্রেণিতে যুক্ত হলে তুল্য ধারকত্ব কত?','২ μF।','শ্রেণিতে 1/Ceq=1/4+1/4=1/2; তাই Ceq=2 μF।'],
+['কোনো চার্জ q, বিভব V-তে থাকলে বিভবশক্তি কত?','U=qV।','বিভবশক্তি হলো চার্জ ও বৈদ্যুতিক বিভবের গুণফল; একক জুল।']],
+'উচ্চতর গণিত':[
+['2x+3y=12 সরলরেখার ঢাল কত?','−২/৩।','y=−(2/3)x+4; তাই ঢাল x-এর সহগ −২/৩।'],
+['z=3+4i হলে |z| কত?','৫।','|z|=√(3²+4²)=√২৫=৫।'],
+['(1+x)⁵-এর বিস্তারে x²-এর সহগ কত?','১০।','দ্বিপদী উপপাদ্যে সহগ C(5,2)=5!/(2!3!)=১০।'],
+['x²−4x+4=0-এর বিচ্যুতি ও মূল কী?','বিচ্যুতি ০; সমান মূল x=২।','D=b²−4ac=১৬−১৬=০। x²−4x+4=(x−2)²।'],
+['দুটি স্বাধীন ঘটনার সম্ভাব্যতা ০.৪ ও ০.৫ হলে উভয়টি ঘটার সম্ভাব্যতা কত?','০.২।','স্বাধীন ঘটনার জন্য P(A∩B)=P(A)P(B)=০.৪×০.৫=০.২।'],
+['3, 7, 11, ... ধারাটির ২০তম পদ কত?','৭৯।','aₙ=a+(n−1)d; a=3,d=4। a₂₀=3+19×4=79।'],
+['একটি বৃত্তের ব্যাসার্ধ ৩ হলে ক্ষেত্রফল কত?','৯π বর্গ একক।','বৃত্তের ক্ষেত্রফল A=πr²=π×৩²=৯π।'],
+['f(x)=x² হলে x=৩-এ অন্তরজ f′(x)-এর মান কত?','৬।','f′(x)=2x; তাই f′(3)=2×3=6।'],
+['(১,২) ও (৪,৬) বিন্দু দিয়ে অতিক্রান্ত সরলরেখার ঢাল কত?','৪/৩।','m=(৬−২)/(৪−১)=৪/৩।'],
+['কোনো ম্যাট্রিক্সের determinant শূন্য হলে সেটি কী ধরনের?','সিঙ্গুলার; এর বিপরীত ম্যাট্রিক্স নেই।','det(A)=0 হলে A-এর সারি/স্তম্ভ রৈখিকভাবে নির্ভরশীল এবং A⁻¹ সংজ্ঞায়িত নয়।'],
+['∫₀² 3x² dx-এর মান কত?','৮।','∫3x²dx=x³। সীমা বসালে 2³−0³=8।'],
+['দুটি অশূন্য ভেক্টরের ডট গুণফল শূন্য। তাদের কোণ কত?','৯০°।','a·b=|a||b|cosθ=0; মান দুটি শূন্য নয়, তাই cosθ=0 এবং θ=৯০°।']],
+'রসায়ন':[
+['প্রথম ক্রমের বিক্রিয়ার অর্ধায়ু কীভাবে rate constant-এর সঙ্গে সম্পর্কিত?','t½=0.693/k।','প্রথম ক্রমের বিক্রিয়ার সমাকলিত গতিসমীকরণ থেকে অর্ধায়ু পাওয়া যায়; নির্দিষ্ট তাপমাত্রায় এটি প্রাথমিক ঘনমাত্রার ওপর নির্ভর করে না।'],
+['জারক পদার্থ নিজে কী হয়?','বিজারিত হয়।','ජারক অন্য পদার্থকে জারিত করতে ইলেকট্রন গ্রহণ করে; ইলেকট্রন গ্রহণ হলো বিজারণ।'],
+['বাফার দ্রবণ অল্প অ্যাসিড যোগে pH পরিবর্তন কমায় কীভাবে?','বাফারের ক্ষারীয় উপাদান যোগ হওয়া H⁺ আয়নকে গ্রহণ করে।','দুর্বল অ্যাসিড/তার অনুবন্ধী ক্ষার বা দুর্বল ক্ষার/তার অনুবন্ধী অ্যাসিড যোগ করা অল্প অ্যাসিড-ক্ষারকে সামলায়।']],
+'জীববিজ্ঞান':[['মিয়োসিসে crossing-over সাধারণত কোন উপপর্যায়ে ঘটে?','প্রোফেজ-I-এর প্যাকাইটিন উপপর্যায়ে।','সমজাতীয় ক্রোমোজোমের non-sister chromatid-এর মধ্যে অংশ বিনিময়ে জিনগত বৈচিত্র্য তৈরি হয়।']],
+'তথ্য ও যোগাযোগ প্রযুক্তি':[['দশমিক ৪৫-এর বাইনারি রূপ কী?','(১০১১০১)₂।','৪৫=৩২+৮+৪+১=2⁵+2³+2²+2⁰; তাই রূপ ১০১১০১।']]
+};
+const norm=name=>name.replace(/\s+(1st|2nd) Paper$/,'');let deck=[],index=0;
+function fill(el,items,placeholder){el.innerHTML='';const first=document.createElement('option');first.value='';first.textContent=placeholder;el.append(first);items.forEach(item=>{const o=document.createElement('option');o.value=item;o.textContent=item;el.append(o);});}
+function updateTrack(){const group=$('group').value,track=$('track');if(!group){track.disabled=true;fill(track,[],'Choose track');$('subject').disabled=true;fill($('subject'),[],'Choose subject');reset();return;}fill(track,group==='Science'?['University','Engineering']:['University'],'Choose track');track.disabled=false;track.value='';$('subject').disabled=true;fill($('subject'),[],'Choose subject');reset();}
+function updateSubjects(){const group=$('group').value,track=$('track').value,subject=$('subject');if(!group||!track){subject.disabled=true;fill(subject,[],'Choose subject');reset();return;}const selected=group==='Science'&&track==='Engineering'?['পদার্থবিজ্ঞান','রসায়ন','উচ্চতর গণিত','জীববিজ্ঞান','তথ্য ও যোগাযোগ প্রযুক্তি']:subjects[group];fill(subject,selected,'Choose subject');subject.disabled=false;reset();}
+function makeDeck(name){const key=norm(name);return (($('track').value==='Engineering'&&engineering[key])||bank[key]||[]).map(([q,a,e])=>({q,a,e}));}
+function show(){const card=deck[index];$('flashcard').classList.remove('flipped');if(!card){$('questionLabel').textContent='Question';$('question').textContent=$('subject').value?'No cards are available for this subject yet. Choose another subject.':'Choose your group, admission track, and subject to begin.';$('answer').textContent='';$('explanation').textContent='';$('count').textContent='No deck selected';$('progress').style.width='0%';return;}$('questionLabel').textContent=`${$('group').value} · ${$('track').value} · ${$('subject').value}`;$('question').textContent=card.q;$('answer').textContent=card.a;$('explanation').textContent=`ব্যাখ্যা: ${card.e}`;$('count').textContent=`Card ${index+1} of ${deck.length}`;$('progress').style.width=`${((index+1)/deck.length)*100}%`;}
 function reset(){deck=[];index=0;show();}
-$('group').addEventListener('change',()=>{$('grade').disabled=!$('group').value;$('grade').value='';options($('track'),[],'Choose track');$('track').disabled=true;options($('subject'),[],'Choose subject');$('subject').disabled=true;reset();if($('group').value)setTrack();});$('grade').addEventListener('change',populateSubjects);$('track').addEventListener('change',populateSubjects);$('subject').addEventListener('change',()=>{deck=makeDeck($('subject').value);index=0;show();});$('flashcard').addEventListener('click',()=>{if(deck.length)$('flashcard').classList.toggle('flipped');});$('next').addEventListener('click',()=>{if(deck.length){index=(index+1)%deck.length;show();}});$('previous').addEventListener('click',()=>{if(deck.length){index=(index-1+deck.length)%deck.length;show();}});$('shuffle').addEventListener('click',()=>{if(deck.length<2)return;for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}index=0;show();});
+$('group').addEventListener('change',updateTrack);$('track').addEventListener('change',updateSubjects);$('subject').addEventListener('change',()=>{deck=makeDeck($('subject').value);index=0;show();});$('flashcard').addEventListener('click',()=>{if(deck.length)$('flashcard').classList.toggle('flipped');});$('next').addEventListener('click',()=>{if(deck.length){index=(index+1)%deck.length;show();}});$('previous').addEventListener('click',()=>{if(deck.length){index=(index-1+deck.length)%deck.length;show();}});$('shuffle').addEventListener('click',()=>{if(deck.length<2)return;for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}index=0;show();});
 })();
 </script></body></html>
