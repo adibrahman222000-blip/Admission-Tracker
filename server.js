@@ -2,10 +2,11 @@ const express = require('express');
 const cron = require('node-cron');
 const cheerio = require('cheerio');
 const fs = require('node:fs/promises');
+const fsSync = require('node:fs');
 const path = require('node:path');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
-const SQLiteStoreFactory = require('connect-sqlite3')(session);
+const SQLiteStore = require('connect-sqlite3')(session);
 const Database = require('better-sqlite3');
 const helmet = require('helmet');
 const { rateLimit } = require('express-rate-limit');
@@ -24,6 +25,23 @@ if (IS_PRODUCTION && (!SESSION_SECRET || SESSION_SECRET.length < 32)) {
   throw new Error('Set SESSION_SECRET to a random secret of at least 32 characters in production.');
 }
 if (!SESSION_SECRET) console.warn('Using a development-only session secret. Set SESSION_SECRET before deployment.');
+
+// Ensure the persistent session store can be constructed before middleware registration.
+fsSync.mkdirSync(DATA_DIR, { recursive: true });
+const sessionStore = new SQLiteStore({ db: 'sessions.sqlite', dir: DATA_DIR, table: 'sessions', concurrentDB: true });
+const database = new Database(path.join(DATA_DIR, 'users.sqlite'));
+database.pragma('journal_mode = WAL');
+database.pragma('foreign_keys = ON');
+database.exec(`CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL UNIQUE COLLATE NOCASE,
+  password_hash TEXT NOT NULL,
+  display_name TEXT NOT NULL,
+  target_university TEXT,
+  personal_exam_date TEXT,
+  study_goal_minutes INTEGER NOT NULL DEFAULT 120,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+)`);
 
 const SOURCES = [
   { id: 'du', name: 'University of Dhaka (DU)', noticeUrl: 'https://www.du.ac.bd/notice', admissionUrl: 'https://admission.eis.du.ac.bd', exams: [{ date: '2026-12-05', label: 'IBA' }, { date: '2026-12-12', label: 'Science (A)' }, { date: '2026-12-19', label: 'Arts, Law & Social Science (B)' }, { date: '2026-12-22', label: 'Fine Arts' }, { date: '2026-12-26', label: 'Business Studies (C)' }], scheduleStatus: 'reported' },
@@ -54,36 +72,27 @@ function addCountdown(source) {
 
 let db = { circulars: [], lastCheckedAt: null, sourceStatus: {} };
 let checkInProgress = false;
-let database;
-let appSessionStore;
-
 app.disable('x-powered-by');
 if (IS_PRODUCTION) app.set('trust proxy', 1);
 app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 app.use(express.json({ limit: '16kb', strict: true }));
-
-const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 10, standardHeaders: 'draft-8', legacyHeaders: false, message: { error: 'Too many sign-in attempts. Try again later.' } });
-const manualCheckLimiter = rateLimit({ windowMs: 5 * 60 * 1000, limit: 1, standardHeaders: 'draft-8', legacyHeaders: false, message: { error: 'Please wait a few minutes before requesting another check.' } });
-
 app.use(session({
   name: 'admission.sid',
   secret: SESSION_SECRET || 'local-development-secret-change-before-deploy-000000000000',
-  store: null, // initialized after DATA_DIR is created in start()
+  store: sessionStore,
   resave: false,
   saveUninitialized: false,
-  cookie: { httpOnly: true, secure: IS_PRODUCTION, sameSite: 'lax', maxAge: 1000 * 60 * 60 * 24 * 7, path: '/' }
+  cookie: { httpOnly: true, secure: IS_PRODUCTION, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000, path: '/' }
 }));
 
-// State-changing browser requests must originate from this site's own origin.
+const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 10, standardHeaders: true, legacyHeaders: false, message: { error: 'Too many sign-in attempts. Try again later.' } });
+const manualCheckLimiter = rateLimit({ windowMs: 5 * 60 * 1000, limit: 1, standardHeaders: true, legacyHeaders: false, message: { error: 'Please wait a few minutes before requesting another check.' } });
 function requireSameOrigin(req, res, next) {
   const origin = req.get('origin');
   if (!origin) return res.status(403).json({ error: 'Origin header is required.' });
   try {
-    const expected = `${req.protocol}://${req.get('host')}`;
-    if (new URL(origin).origin !== expected) return res.status(403).json({ error: 'Cross-origin request rejected.' });
-  } catch {
-    return res.status(403).json({ error: 'Invalid request origin.' });
-  }
+    if (new URL(origin).origin !== `${req.protocol}://${req.get('host')}`) return res.status(403).json({ error: 'Cross-origin request rejected.' });
+  } catch { return res.status(403).json({ error: 'Invalid request origin.' }); }
   next();
 }
 function requireAuth(req, res, next) {
@@ -110,9 +119,8 @@ app.post('/api/auth/register', authLimiter, requireSameOrigin, async (req, res, 
     if (typeof password !== 'string' || password.length < 12 || password.length > 128) return res.status(400).json({ error: 'Password must be 12–128 characters.' });
     const hash = await bcrypt.hash(password, 12);
     let result;
-    try {
-      result = database.prepare('INSERT INTO users (email, password_hash, display_name) VALUES (?, ?, ?)').run(email, hash, displayName);
-    } catch (error) {
+    try { result = database.prepare('INSERT INTO users (email, password_hash, display_name) VALUES (?, ?, ?)').run(email, hash, displayName); }
+    catch (error) {
       if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') return res.status(409).json({ error: 'An account with that email already exists.' });
       throw error;
     }
@@ -127,14 +135,15 @@ app.post('/api/auth/register', authLimiter, requireSameOrigin, async (req, res, 
   } catch (error) { next(error); }
 });
 
+const DUMMY_PASSWORD_HASH = bcrypt.hashSync('dummy-account-password-never-valid', 12);
 app.post('/api/auth/login', authLimiter, requireSameOrigin, async (req, res, next) => {
   try {
     const email = String(req.body.email || '').trim().toLowerCase();
     const password = req.body.password;
     if (email.length > 254 || typeof password !== 'string' || password.length > 128) return res.status(400).json({ error: 'Invalid email or password.' });
     const user = database.prepare('SELECT * FROM users WHERE email = ?').get(email);
-    const ok = user ? await bcrypt.compare(password, user.password_hash) : await bcrypt.compare(password, '$2a$12$C6UzMDM.H6dfI/f/IKcEe.9O8X8bRrM0Wg/RF2uyvD5mKX8L7w2W');
-    if (!user || !ok) return res.status(401).json({ error: 'Invalid email or password.' });
+    const validPassword = await bcrypt.compare(password, user ? user.password_hash : DUMMY_PASSWORD_HASH);
+    if (!user || !validPassword) return res.status(401).json({ error: 'Invalid email or password.' });
     req.session.regenerate(err => {
       if (err) return next(err);
       req.session.userId = user.id;
@@ -145,7 +154,6 @@ app.post('/api/auth/login', authLimiter, requireSameOrigin, async (req, res, nex
     });
   } catch (error) { next(error); }
 });
-
 app.post('/api/auth/logout', requireSameOrigin, (req, res, next) => {
   req.session.destroy(error => {
     if (error) return next(error);
@@ -177,7 +185,6 @@ app.put('/api/profile', requireSameOrigin, requireAuth, (req, res) => {
     .run(displayName, targetUniversity || null, personalExamDate, studyGoalMinutes, req.session.userId);
   res.json({ user: publicUser(database.prepare('SELECT * FROM users WHERE id = ?').get(req.session.userId)) });
 });
-
 app.get('/profile', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'profile.html')));
 app.use(express.static(path.join(__dirname, 'public'), { dotfiles: 'ignore', index: 'index.html', maxAge: IS_PRODUCTION ? '1h' : 0 }));
 
@@ -288,24 +295,6 @@ app.use((error, _req, res, _next) => {
 });
 
 async function start() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  database = new Database(path.join(DATA_DIR, 'users.sqlite'));
-  database.pragma('journal_mode = WAL');
-  database.pragma('foreign_keys = ON');
-  database.exec(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email TEXT NOT NULL UNIQUE COLLATE NOCASE,
-    password_hash TEXT NOT NULL,
-    display_name TEXT NOT NULL,
-    target_university TEXT,
-    personal_exam_date TEXT,
-    study_goal_minutes INTEGER NOT NULL DEFAULT 120,
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-  )`);
-  appSessionStore = new SQLiteStoreFactory({ db: 'sessions.sqlite', dir: DATA_DIR, table: 'sessions', concurrentDB: true });
-  // Attach durable session storage after initialization; no MemoryStore in production.
-  const sessionLayer = app._router.stack.find(layer => layer.name === 'session');
-  if (sessionLayer) sessionLayer.handle.store = appSessionStore;
   await loadData();
   const server = app.listen(PORT, () => console.log(`Admission Tracker listening on port ${PORT}`));
   server.requestTimeout = 15000;
