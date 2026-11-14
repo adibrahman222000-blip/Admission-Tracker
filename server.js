@@ -7,10 +7,6 @@ const helmet = require('helmet');
 const { rateLimit } = require('express-rate-limit');
 
 const app = express();
-const express = require('express');
-const path = require('node:path');
-
-const app = express();
 
 app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'home.html'));
