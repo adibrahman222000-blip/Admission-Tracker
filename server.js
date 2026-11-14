@@ -8,16 +8,15 @@ const { rateLimit } = require('express-rate-limit');
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
-const interval = Number(process.env.CHECK_INTERVAL_MINUTES) || 30;
-const CHECK_INTERVAL_MINUTES = Math.max(5, Math.min(59, interval));
+const CHECK_INTERVAL_MINUTES = Math.max(5, Math.min(59, Number(process.env.CHECK_INTERVAL_MINUTES) || 30));
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const DATA_FILE = path.join(DATA_DIR, 'circulars.json');
 const MAX_PAGE_BYTES = 3 * 1024 * 1024;
 const REQUEST_TIMEOUT_MS = 12000;
 const SESSION_LABEL = '2026–27';
 
-// Official university/cluster pages. Links are always provided as a fallback,
-// including when no matching undergraduate 2026–27 circular has been detected.
+// This initial curated set covers the configured universities and admission
+// clusters. UGC directories below let students find other recognized institutions.
 const SOURCES = [
   { id: 'du', name: 'University of Dhaka (DU)', noticeUrl: 'https://www.du.ac.bd/notice', admissionUrl: 'https://admission.eis.du.ac.bd' },
   { id: 'ru', name: 'University of Rajshahi (RU)', noticeUrl: 'https://admission.ru.ac.bd', admissionUrl: 'https://admission.ru.ac.bd/undergraduate/' },
@@ -34,6 +33,10 @@ const SOURCES = [
   { id: 'mist', name: 'Military Institute of Science and Technology (MIST)', noticeUrl: 'https://mist.ac.bd/allnotice', admissionUrl: 'https://admission.mist.ac.bd' },
   { id: 'agri', name: 'Agricultural Universities Admission System', noticeUrl: 'https://admission-agri.org', admissionUrl: 'https://admission-agri.org' },
   { id: 'gst', name: 'GST Universities Admission System', noticeUrl: 'https://gstadmission.ac.bd', admissionUrl: 'https://gstadmission.ac.bd' }
+];
+const UGC_DIRECTORIES = [
+  { id: 'ugc-public', name: 'UGC Bangladesh — Public Universities', url: 'https://www.ugc.gov.bd/universities/public-universities' },
+  { id: 'ugc-private', name: 'UGC Bangladesh — Private Universities', url: 'https://www.ugc.gov.bd/universities' }
 ];
 
 const sessionPattern = /(?:2026\s*[-–/\u2010\u2011]\s*(?:2027|27)|২০২৬\s*[-–/\u2010\u2011]\s*(?:২০২৭|২৭))/i;
@@ -94,9 +97,7 @@ async function readLimitedBody(response) {
       }
       chunks.push(Buffer.from(value));
     }
-  } finally {
-    reader.releaseLock();
-  }
+  } finally { reader.releaseLock(); }
   return Buffer.concat(chunks).toString('utf8');
 }
 async function inspectSource(source) {
@@ -114,8 +115,7 @@ async function inspectSource(source) {
     if (!contentType.includes('text/html') && !contentType.includes('xml')) throw new Error(`Unsupported response type: ${contentType}`);
     const declaredLength = Number(response.headers.get('content-length'));
     if (Number.isFinite(declaredLength) && declaredLength > MAX_PAGE_BYTES) throw new Error('Page is too large to inspect');
-    const html = await readLimitedBody(response);
-    const $ = cheerio.load(html);
+    const $ = cheerio.load(await readLimitedBody(response));
     const found = [];
     const seen = new Set();
     $('a[href]').each((_, element) => {
@@ -127,8 +127,7 @@ async function inspectSource(source) {
       if (!sessionPattern.test(context) || !admissionPattern.test(context) || !undergraduatePattern.test(context) || excludedPattern.test(context)) return;
       let url;
       try { url = new URL(href, response.url).toString(); } catch { return; }
-      if (!isAllowedLink(url, source) || seen.has(url)) return;
-      if (url === source.noticeUrl || url === source.admissionUrl) return;
+      if (!isAllowedLink(url, source) || seen.has(url) || url === source.noticeUrl || url === source.admissionUrl) return;
       seen.add(url);
       found.push({ title: title || 'Undergraduate admission circular 2026–27', url, category: '2026–27 Undergraduate Admission Circular', session: '2026-27', level: 'undergraduate' });
     });
@@ -145,7 +144,6 @@ async function loadData() {
   await fs.mkdir(DATA_DIR, { recursive: true });
   try {
     const saved = JSON.parse(await fs.readFile(DATA_FILE, 'utf8'));
-    // Drop cached items from previous broad scans rather than showing unrelated notices.
     db = {
       circulars: Array.isArray(saved.circulars) ? saved.circulars.filter(item => item.session === '2026-27' && item.level === 'undergraduate') : [],
       lastCheckedAt: saved.lastCheckedAt || null,
@@ -183,15 +181,17 @@ async function checkAllSources() {
   } finally { checkInProgress = false; }
 }
 
-app.get('/api/sources', (_req, res) => res.json(SOURCES.map(source => ({ id: source.id, name: source.name, noticeUrl: source.noticeUrl, admissionUrl: source.admissionUrl, status: db.sourceStatus[source.id] || null }))));
+app.get('/api/sources', (_req, res) => res.json({ sources: SOURCES.map(source => ({ ...source, status: db.sourceStatus[source.id] || null })), directories: UGC_DIRECTORIES }));
 app.get('/api/circulars', (req, res) => {
   const query = String(req.query.q || '').trim().slice(0, 100).toLowerCase();
   const universityId = String(req.query.university || '').trim();
   let items = db.circulars.filter(item => item.session === '2026-27' && item.level === 'undergraduate');
   if (query) items = items.filter(item => `${item.title} ${item.university}`.toLowerCase().includes(query));
   if (universityId) items = items.filter(item => item.universityId === universityId);
-  const sourceIdsWithResults = new Set(items.map(item => item.universityId));
-  res.json({ session: SESSION_LABEL, circulars: items.slice(0, 250), sources: SOURCES.map(source => ({ ...source, fallback: !sourceIdsWithResults.has(source.id) })), lastCheckedAt: db.lastCheckedAt, checking: checkInProgress });
+  const matchedIds = new Set(items.map(item => item.universityId));
+  const matchingSources = universityId ? SOURCES.filter(source => source.id === universityId) : SOURCES;
+  const fallbacks = matchingSources.filter(source => !matchedIds.has(source.id));
+  res.json({ session: SESSION_LABEL, circulars: items.slice(0, 250), fallbacks, lastCheckedAt: db.lastCheckedAt, checking: checkInProgress });
 });
 app.get('/api/status', (_req, res) => res.json({ session: SESSION_LABEL, lastCheckedAt: db.lastCheckedAt, checking: checkInProgress, intervalMinutes: CHECK_INTERVAL_MINUTES, sourceCount: SOURCES.length }));
 app.post('/api/check-now', manualCheckLimiter, requireSameOrigin, async (_req, res) => {
