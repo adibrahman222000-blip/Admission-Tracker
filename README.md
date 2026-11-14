@@ -1,6 +1,6 @@
 # Admission Tracker
 
-A small dynamic admission-preparation website with a persistent study timer, exam countdown, official university links, and a Node.js service that periodically discovers circular/notice links.
+A university admission dashboard with official circular links, exam schedule countdowns, study timer, and individual student profiles.
 
 ## Run locally
 
@@ -8,25 +8,24 @@ Requires Node.js 20 or newer.
 
 ```bash
 npm install
+SESSION_SECRET="a-long-random-secret-at-least-32-characters" npm start
+```
+
+Open <http://localhost:3000>. Visit <http://localhost:3000/profile> to create an account or sign in. Each student's profile settings are stored in the local SQLite database under `data/` and are only accessible after signing in.
+
+On Windows PowerShell, set the secret first:
+
+```powershell
+$env:SESSION_SECRET = "a-long-random-secret-at-least-32-characters"
 npm start
 ```
 
-Open <http://localhost:3000>.
+## Production security setup
 
-## Features
+- Set `NODE_ENV=production` and a unique `SESSION_SECRET` of 32+ random characters in your host's secret/environment settings. HTTPS must be enabled in production because session cookies use the `Secure` flag.
+- Provide persistent storage for `DATA_DIR`; it holds `users.sqlite` and `sessions.sqlite` (accounts, password hashes, sessions) and `circulars.json`.
+- Never commit `.env`, databases, or secrets. Use a unique password; passwords are stored as bcrypt hashes.
+- Registration and sign-in are rate-limited. Profile fields require a signed-in session. Session cookies are HttpOnly and SameSite=Lax; mutation requests require same-origin checks.
+- Back up `DATA_DIR` securely. Do not store sensitive identity or financial data in student profiles.
 
-- Study timer and exam date are saved in the browser's local storage and survive refreshes/restarts on the same device/browser.
-- The backend checks the configured university notice pages on startup and every 30 minutes (configurable with `CHECK_INTERVAL_MINUTES`, minimum 5).
-- Discovered notice links are stored in `data/circulars.json`; duplicate URLs are ignored.
-- `/api/sources`, `/api/circulars`, and `/api/status` provide JSON data. `POST /api/check-now` requests an immediate scan and is rate-limited.
-- Browser notifications can alert while the site is open. Closed-tab push notifications require a service worker and VAPID push subscription setup, which is not included in this starter.
-
-## Deploying
-
-Deploy as a Node web service (for example, Render or Railway), with the start command `npm start`. Configure a persistent disk/volume and set `DATA_DIR` to its mount path so circular history survives redeploys. The timer and exam date are per-browser; browser local storage does not sync across devices.
-
-## Notice checking limitations
-
-The checker visits official pages and looks for same-site links whose text or URL resembles a notice, admission circular, exam, result, or scholarship. It respects a small response-size cap, timeout, and per-source sequential checking. University pages vary and may change, require JavaScript, block automated requests, or use different languages/layouts, so this generic discovery may miss notices or include irrelevant matching links. Official-page links remain available in the website for manual verification. Improve reliability by adding source-specific parsers or official RSS/API feeds where available. Do not treat this as an authoritative source; always verify the notice on the university's official site.
-
-The configured sources include DU, RU, CU, JU, JnU, KU, BUP, BUET, CUET, RUET, KUET, BUTEX, MIST, the agricultural admission system, and the GST admission system. Admission portal addresses can change between sessions; review the source list in `server.js` if an official portal moves.
+Profile fields include display name, email, target university, personal exam date, and daily study goal. Public circular and university schedule APIs remain available without login.
